@@ -3853,15 +3853,18 @@ async function saveRun(entry){
 const TUTORIAL_SCENARIOS={
   yimby:{name:'YIMBY / inclusive growth',goal:'Build more housing while helping lower-income residents, artists, and workers stay.',risk:'More building can upset homeowners, and new homes take time to arrive.',steps:[
     ['#movecard','Choose your first policies','This is where you make decisions. For an inclusive-growth start, try adding housing capacity, making approvals faster, or funding public/nonprofit housing. You can choose more than one policy, but you do not have to.'],
-    ['#next','Then end the turn','This bar stays at the bottom of the screen. Before you choose a policy it says Choose a policy. Once you have picked one, it becomes End turn → 2028. Tap it to move forward two years and see what changed.']
+    ['#next','Then end the turn','This bar stays at the bottom of the screen. Before you choose a policy it says Choose a policy. Once you have picked one, it becomes End turn → 2028. Tap it to move forward two years and see what changed.'],
+    ['#people-summary','See how people respond','After each turn, use the dashboard to see how your policies are being received. Watch voter approval and constituency reactions. Your goal is re-election.']
   ]},
   nimby:{name:'Conservative NIMBY / homeowner preservation',goal:'Limit physical change and keep incumbent homeowners comfortable.',risk:'Less building can make housing scarcer and rents harder on people who do not already own a home.',steps:[
     ['#movecard','Choose your first policies','This is where you make decisions. For a preservation-focused start, keep neighborhood scale, retain discretionary review, and avoid changes you do not want. You do not need to fill every policy slot.'],
-    ['#next','Then end the turn','This bar stays at the bottom of the screen. Before you choose a policy it says Choose a policy. Once you have picked one, it becomes End turn → 2028. Tap it to move forward two years and see what changed.']
+    ['#next','Then end the turn','This bar stays at the bottom of the screen. Before you choose a policy it says Choose a policy. Once you have picked one, it becomes End turn → 2028. Tap it to move forward two years and see what changed.'],
+    ['#people-summary','See how people respond','After each turn, use the dashboard to see how your policies are being received. Watch voter approval and constituency reactions. Your goal is re-election.']
   ]},
   balanced:{name:'Balanced reform',goal:'Add housing while watching affordability, culture, the budget, and political support.',risk:'Moderate changes can reduce conflict, but they may not be fast enough if housing demand keeps rising.',steps:[
     ['#movecard','Choose your first policies','This is where you make decisions. A simple balanced start is a modest housing increase plus faster approvals. You can stop there and see what happens before making bigger changes.'],
-    ['#next','Then end the turn','This bar stays at the bottom of the screen. Before you choose a policy it says Choose a policy. Once you have picked one, it becomes End turn → 2028. Tap it to move forward two years and see what changed.']
+    ['#next','Then end the turn','This bar stays at the bottom of the screen. Before you choose a policy it says Choose a policy. Once you have picked one, it becomes End turn → 2028. Tap it to move forward two years and see what changed.'],
+    ['#people-summary','See how people respond','After each turn, use the dashboard to see how your policies are being received. Watch voter approval and constituency reactions. Your goal is re-election.']
   ]}
 };
 let TUT=[],tutScenario=null,tutI=0,tutTimer=null,tutOpen=false,tutTarget=null,tutScrollRAF=null;
@@ -3905,7 +3908,7 @@ function showTutorialChooser(){
   n.box.style.top=tutorialIsMobile()?'auto':'50%';n.box.style.transform=tutorialIsMobile()?'none':'translateY(-50%)';
   n.step.textContent='Quick tutorial';
   n.title.textContent='Pick a starting approach';
-  n.text.textContent='Choose one. We will show you only the two things you need to make your first turn.';
+  n.text.textContent='Choose one. We will show you the three things you need to get started.';
   n.choices.style.display='block';
   n.choices.innerHTML=`<div class="tut-choice-grid">${Object.entries(TUTORIAL_SCENARIOS).map(([k,s])=>`<button type="button" class="tut-choice" data-scenario="${k}"><div class="name">${s.name}</div><div class="goal">${s.goal}</div><div class="risk">${s.risk}</div></button>`).join('')}</div>`;
   n.buttons.style.display='none';
