@@ -874,7 +874,8 @@ svg,canvas{max-width:100%}
     display:block;position:fixed!important;z-index:0;border:2px solid var(--service)!important;
     border-radius:7px!important;background:transparent!important;
     box-shadow:0 0 0 9999px rgba(4,10,13,.76)!important;
-    transition:top .22s ease,left .22s ease,width .22s ease,height .22s ease;
+    transition:none!important;
+    will-change:top,left,width,height;
     pointer-events:none!important;
   }
   #tut-box{
@@ -3867,7 +3868,7 @@ const TUTORIAL_SCENARIOS={
     ['#people-summary','See how people respond','After each turn, use the dashboard to see how your policies are being received. Watch voter approval and constituency reactions. Your goal is re-election.']
   ]}
 };
-let TUT=[],tutScenario=null,tutI=0,tutTimer=null,tutOpen=false,tutTarget=null,tutScrollRAF=null;
+let TUT=[],tutScenario=null,tutI=0,tutTimer=null,tutOpen=false,tutTarget=null,tutScrollRAF=null,tutRepositionRAF=null;
 function hideTutorialNudge(){
   const n=document.getElementById('tutorial-nudge'),h=document.getElementById('help');
   if(n)n.style.display='none';
@@ -3932,6 +3933,7 @@ function tutorialScrollTo(el,done){
   const reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if(reduce||!tutorialIsMobile()){
     try{el.scrollIntoView({block:'center',behavior:'auto'})}catch(e){}
+    placeTutorial(el,false);
     done();return;
   }
   const r=el.getBoundingClientRect();
@@ -3942,43 +3944,51 @@ function tutorialScrollTo(el,done){
   const tick=now=>{
     const t=Math.min(1,(now-start)/duration);
     window.scrollTo(0,startY+delta*ease(t));
+    if(tutOpen&&usableTutorialTarget(el))placeTutorial(el,false);
     if(t<1)tutScrollRAF=requestAnimationFrame(tick);
     else{tutScrollRAF=null;setTimeout(done,110)}
   };
   tutScrollRAF=requestAnimationFrame(tick);
 }
-function placeTutorial(el){
+function placeTutorial(el,showBox=true){
   const n=tutorialNodes();if(!tutOpen||!n.root||!n.hole||!n.box||!usableTutorialTarget(el))return;
   if(tutorialIsMobile()){
     const r=el.getBoundingClientRect(),pad=6;
+    const visible=r.bottom>4&&r.top<window.innerHeight-4&&r.right>4&&r.left<window.innerWidth-4;
+    if(!visible){n.hole.style.display='none';return}
     const top=Math.max(6,r.top-pad),left=Math.max(6,r.left-pad),right=Math.min(window.innerWidth-6,r.right+pad),bottom=Math.min(window.innerHeight-6,r.bottom+pad);
     n.hole.style.display='block';n.hole.style.top=top+'px';n.hole.style.left=left+'px';n.hole.style.width=Math.max(14,right-left)+'px';n.hole.style.height=Math.max(14,bottom-top)+'px';
-    n.box.style.top='auto';n.box.style.transform='none';n.box.classList.add('tut-ready');return;
+    n.box.style.top='auto';n.box.style.transform='none';if(showBox)n.box.classList.add('tut-ready');return;
   }
-  n.box.classList.add('tut-ready');n.box.style.transform='none';n.hole.style.display='block';
+  if(showBox)n.box.classList.add('tut-ready');n.box.style.transform='none';n.hole.style.display='block';
   const r=el.getBoundingClientRect(),pad=6,top=Math.max(4,r.top-pad),left=Math.max(4,r.left-pad),right=Math.min(window.innerWidth-4,r.right+pad),bottom=Math.min(window.innerHeight-4,r.bottom+pad);
   n.hole.style.top=top+'px';n.hole.style.left=left+'px';n.hole.style.width=Math.max(12,right-left)+'px';n.hole.style.height=Math.max(12,bottom-top)+'px';
   const boxH=Math.max(120,n.box.offsetHeight||180),below=bottom+12;let boxTop=(window.innerHeight-below>boxH+10)?below:top-boxH-12;boxTop=Math.max(10,Math.min(window.innerHeight-boxH-10,boxTop));n.box.style.top=boxTop+'px'
 }
 function tutShow(index){
   const n=tutorialNodes();if(!n.root||!n.hole||!n.box||!n.step||!n.title||!n.text||!n.next)return;
-  if(tutTimer){clearTimeout(tutTimer);tutTimer=null}clearTutorialTarget();n.box.classList.remove('tut-ready');
+  if(tutTimer){clearTimeout(tutTimer);tutTimer=null}clearTutorialTarget();n.box.classList.remove('tut-ready');n.hole.style.display='none';
   let i=Math.max(0,index|0),el=null;while(i<TUT.length){const candidate=document.querySelector(TUT[i][0]);if(usableTutorialTarget(candidate)){el=candidate;break}i++}
   if(i>=TUT.length||!el){tutEnd();return}
   tutI=i;tutOpen=true;document.body.classList.add('tutorial-open');const[,title,copy]=TUT[i],scenario=TUTORIAL_SCENARIOS[tutScenario];
   n.root.style.display='block';n.root.setAttribute('aria-hidden','false');if(n.choices)n.choices.style.display='none';if(n.buttons)n.buttons.style.display='flex';
   n.step.textContent=`Step ${i+1} of ${TUT.length}`;n.title.textContent=title;n.text.textContent=copy;n.next.textContent=i===TUT.length-1?'Finish tutorial':'Next';
+  tutTarget=el;el.classList.add('tutorial-target-active');
   tutorialScrollTo(el,()=>{
     if(!tutOpen||!usableTutorialTarget(el)){if(tutOpen)tutShow(tutI+1);return}
-    tutTarget=el;el.classList.add('tutorial-target-active');placeTutorial(el)
+    placeTutorial(el,true)
   })
 }
 function tutEnd(){
-  tutOpen=false;if(tutTimer){clearTimeout(tutTimer);tutTimer=null}if(tutScrollRAF){cancelAnimationFrame(tutScrollRAF);tutScrollRAF=null}clearTutorialTarget();document.body.classList.remove('tutorial-open','tutorial-chooser');
+  tutOpen=false;if(tutTimer){clearTimeout(tutTimer);tutTimer=null}if(tutScrollRAF){cancelAnimationFrame(tutScrollRAF);tutScrollRAF=null}if(tutRepositionRAF){cancelAnimationFrame(tutRepositionRAF);tutRepositionRAF=null}clearTutorialTarget();document.body.classList.remove('tutorial-open','tutorial-chooser');
   const n=tutorialNodes();if(n.root){n.root.style.display='none';n.root.setAttribute('aria-hidden','true')}if(n.hole)n.hole.style.display='block';if(n.box){n.box.style.transform='none';n.box.classList.remove('tut-ready')}
   try{const p=window.storage&&window.storage.set&&window.storage.set('tutseen','1');if(p&&typeof p.catch==='function')p.catch(()=>{})}catch(e){}
 }
-function tutReposition(){if(!tutOpen||!TUT.length||tutI<0||tutI>=TUT.length)return;const el=document.querySelector(TUT[tutI][0]);if(usableTutorialTarget(el))placeTutorial(el)}
+function tutReposition(){if(!tutOpen||document.body.classList.contains('tutorial-chooser')||!TUT.length||tutI<0||tutI>=TUT.length)return;const el=tutTarget||document.querySelector(TUT[tutI][0]);if(usableTutorialTarget(el)){const box=document.getElementById('tut-box');placeTutorial(el,box?box.classList.contains('tut-ready'):true)}}
+function scheduleTutorialReposition(){
+  if(!tutOpen||document.body.classList.contains('tutorial-chooser')||tutRepositionRAF)return;
+  tutRepositionRAF=requestAnimationFrame(()=>{tutRepositionRAF=null;tutReposition()});
+}
 
 /* ═══════════════════════ WIRING ═══════════════════════ */
 document.getElementById('hudbars').onclick=()=>{
@@ -4060,6 +4070,7 @@ document.getElementById('m-again').onclick=()=>{
   init();
 };
 addEventListener('resize',()=>{ draw(); tutReposition(); });
+window.addEventListener('scroll',scheduleTutorialReposition,{passive:true});
 init();
 try{ if(window.storage) loadRuns(); }catch(e){}
 // Tutorial is manual via the ? button. Auto-launching during the district
