@@ -741,7 +741,7 @@ body.in-office #hudbars,body.in-office #scorekey{display:none!important}
 
 <div id="overlays">
   <button data-ov="rent" aria-pressed="true">RENT</button>
-  <button data-ov="change" aria-pressed="false">VS NOTHING</button>
+  <button data-ov="zone" aria-pressed="false" title="Show the housing scale currently allowed by zoning">CURRENT ZONING</button>
 </div>
 
 <div id="map-dashboard">
@@ -2260,6 +2260,7 @@ function renderRentComparison(){
     return;
   }
   const h=G.hoods[G.czar];
+  const hasTurns=!!(G.scores&&G.scores.length);
   const now=Math.round(effRent(h));
   const sh=Math.round(shadowEffRentFor(h));
   const d=now-sh;
@@ -2275,8 +2276,18 @@ function renderRentComparison(){
   const width=Math.min(50,Math.abs(d)/scale*50);
   const left=d<0?50-width:50;
   const avg=Math.round(cityDeltas.reduce((a,b)=>a+b,0)/Math.max(1,cityDeltas.length));
-  if(head) head.innerHTML=`<div class="mh-title">Rent versus doing nothing</div><div class="mh-sub">green = lower rent · red = higher rent · selected district outlined</div>`;
+  if(head) head.innerHTML=hasTurns
+    ? `<div class="mh-title">Rent versus doing nothing</div><div class="mh-sub">green = lower rent · red = higher rent · selected district outlined</div>`
+    : `<div class="mh-title">2026 starting rent</div><div class="mh-sub">This is the baseline before your first policy package.</div>`;
   if(!panel) return;
+  if(!hasTurns){
+    panel.innerHTML=`
+      <div class="rent-panel-kicker">${h.name}</div>
+      <div class="rent-panel-title">Starting position</div>
+      <div class="rent-hero"><div class="delta" style="color:var(--bone)">$${now.toLocaleString()}</div><div class="caption">average rent paid in 2026</div></div>
+      <div class="impact-note">Your counterfactual begins from the same place. After you complete the first turn, this panel will compare your district with the version where you made no policy changes.</div>`;
+    return;
+  }
   panel.innerHTML=`
     <div class="rent-panel-kicker">${h.name}</div>
     <div class="rent-panel-title">Rent effect</div>
@@ -2347,23 +2358,23 @@ function sparklineSVG(series,shadowSeries,col,fmt=''){
 function renderDashboard(){
   const impact=document.getElementById('impact-summary'),people=document.getElementById('people-summary');
   if(!impact||!people||G.czar==null||!G.base){if(impact)impact.innerHTML='';if(people)people.innerHTML='';return;}
-  const h=G.hoods[G.czar],q=G.shadow?G.shadow.hoods[G.czar]:null,H=G.hist||[];
+  const h=G.hoods[G.czar],q=G.shadow?G.shadow.hoods[G.czar]:null,H=G.hist||[],hasTurns=!!(G.scores&&G.scores.length);
   const shEff=q?(()=>{const r=G;G=G.shadow;const v=effRent(q);G=r;return v;})():effRent(h);
   const tot=CK.reduce((a,k)=>a+h.pop[k],0)||1,qTot=q?CK.reduce((a,k)=>a+q.pop[k],0)||1:tot;
   const mix=(h.pop.artist+h.pop.service)/tot*100,qMix=q?(q.pop.artist+q.pop.service)/qTot*100:mix;
   const dHomes=q?Math.round(h.units-q.units):0,dRent=Math.round(effRent(h)-shEff),dVibe=q?Math.round(h.vibe-q.vibe):0,dMix=Math.round(mix-qMix);
   const tax=districtTax(h),stax=H.length&&Number.isFinite(H[H.length-1].stax)?H[H.length-1].stax:tax,taxRead=taxBaseReadout(h);
   const mine=G.scores?.length?runningScore(G.scores):scoreNow(),base=G.sscores?.length?runningScore(G.sscores):mine,margin=mine-base;
-  const verdict=margin>=8?'Better than doing nothing':margin<=-8?'Worse than doing nothing':'Close to doing nothing';
+  const verdict=!hasTurns?'2026 starting position':margin>=8?'Better than doing nothing':margin<=-8?'Worse than doing nothing':'Close to doing nothing';
   const vcol=margin>4?'#8FBE7E':margin<-4?'#E8674F':'#E8A94A';
   const metrics=[
-    ['Homes',`${Math.round(h.units).toLocaleString()}`,H.map(x=>x.units),H.map(x=>x.sunits),dHomes,`${dHomes>=0?'+':''}${dHomes.toLocaleString()} vs nothing`,'#8FBE7E'],
-    ['Rent',`$${Math.round(effRent(h)).toLocaleString()}`,H.map(x=>x.rent),H.map(x=>x.srent),-dRent,`${dRent<0?'−':dRent>0?'+':''}$${Math.abs(dRent).toLocaleString()} vs nothing`,'#E8A94A'],
-    ['Culture',`${Math.round(h.vibe)}/100`,H.map(x=>x.vibe),H.map(x=>x.svibe),dVibe,`${dVibe>=0?'+':''}${dVibe} vs nothing`,'#DE7396'],
-    ['Diversity',`${Math.round(mix)}%`,H.map(x=>x.mix),H.map(x=>x.smix),dMix,`${dMix>=0?'+':''}${dMix} pts vs nothing`,'#7FB6E6'],
-    ['Tax base',`$${tax.toFixed(1)}M`,H.map(x=>x.tax),H.map(x=>x.stax),tax-stax,`index ${Math.round(taxRead.index)} · 2026=100`,'#89A3AC']
+    ['Homes',`${Math.round(h.units).toLocaleString()}`,H.map(x=>x.units),hasTurns?H.map(x=>x.sunits):[],hasTurns?dHomes:0,hasTurns?`${dHomes>=0?'+':''}${dHomes.toLocaleString()} vs nothing`:'2026 baseline','#8FBE7E'],
+    ['Rent',`$${Math.round(effRent(h)).toLocaleString()}`,H.map(x=>x.rent),hasTurns?H.map(x=>x.srent):[],hasTurns?-dRent:0,hasTurns?`${dRent<0?'−':dRent>0?'+':''}$${Math.abs(dRent).toLocaleString()} vs nothing`:'2026 baseline','#E8A94A'],
+    ['Culture',`${Math.round(h.vibe)}/100`,H.map(x=>x.vibe),hasTurns?H.map(x=>x.svibe):[],hasTurns?dVibe:0,hasTurns?`${dVibe>=0?'+':''}${dVibe} vs nothing`:'2026 baseline','#DE7396'],
+    ['Diversity',`${Math.round(mix)}%`,H.map(x=>x.mix),hasTurns?H.map(x=>x.smix):[],hasTurns?dMix:0,hasTurns?`${dMix>=0?'+':''}${dMix} pts vs nothing`:'2026 baseline','#7FB6E6'],
+    ['Tax base',`$${tax.toFixed(1)}M`,H.map(x=>x.tax),hasTurns?H.map(x=>x.stax):[],hasTurns?tax-stax:0,hasTurns?`index ${Math.round(taxRead.index)} · 2026=100`:'2026 baseline · index 100','#89A3AC']
   ];
-  impact.innerHTML=`<div class="dash-kicker">Outcomes</div><div class="impact-head"><div class="impact-verdict" style="color:${vcol}">${verdict}</div><div class="impact-score">score gap<b style="color:${vcol}">${margin>0?'+':''}${margin}</b></div></div><div class="impact-note">Click any metric to see which recent decisions pushed it and why. Solid line = your district; dashed = doing nothing.</div><div class="metric-list">${metrics.map(m=>`<div class="metric-row-simple" role="button" tabindex="0" onclick="openMetricExplain('${m[0]}')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openMetricExplain('${m[0]}')}" aria-label="Explain ${m[0]}"><div class="mn">${m[0]}<div class="clickhint">click to explain</div></div><div class="mv">${m[1]}</div>${sparklineSVG(m[2],m[3],m[6],m[0]==='Rent'?'money':'')}<div class="md" style="color:${m[4]>0?'#8FBE7E':m[4]<0?'#E8674F':'var(--dim)'}">${m[5]}</div></div>`).join('')}</div>`;
+  impact.innerHTML=`<div class="dash-kicker">Outcomes</div><div class="impact-head"><div class="impact-verdict" style="color:${vcol}">${verdict}</div><div class="impact-score">${hasTurns?'score gap':'baseline score'}<b style="color:${vcol}">${hasTurns?(margin>0?'+':'')+margin:Math.round(mine)}</b></div></div><div class="impact-note">${hasTurns?'Click any metric to see which recent decisions pushed it and why. Solid line = your district; dashed = doing nothing.':'These are the conditions you inherited. After your first completed turn, the charts will add the do-nothing comparison and show what your decisions changed.'}</div><div class="metric-list">${metrics.map(m=>`<div class="metric-row-simple" role="button" tabindex="0" onclick="openMetricExplain('${m[0]}')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openMetricExplain('${m[0]}')}" aria-label="Explain ${m[0]}"><div class="mn">${m[0]}<div class="clickhint">click to explain</div></div><div class="mv">${m[1]}</div>${sparklineSVG(m[2],m[3],m[6],m[0]==='Rent'?'money':'')}<div class="md" style="color:${m[4]>0?'#8FBE7E':m[4]<0?'#E8674F':'var(--dim)'}">${m[5]}</div></div>`).join('')}</div>`;
   const pol=politicalApproval(),approval=pol.approval;
   const names={tech:'Tech',family:'Families',service:'Service',artist:'Artists',owner:'Homeowners'};
   const weightTotal=Object.values(pol.weights).reduce((a,b)=>a+b,0)||1;
