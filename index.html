@@ -884,6 +884,48 @@ svg,canvas{max-width:100%}
 }
 @media(prefers-reduced-motion:reduce){#tut-box{transition:none!important}}
 
+
+/* Mobile tutorial entry + chooser cleanup.
+   On phones, do not overlay a large arrow callout after district selection.
+   The ? button itself is the only tutorial nudge. When opened, strategy
+   selection becomes a dedicated full-screen decision before coaching starts. */
+@media(max-width:680px){
+  #tutorial-nudge{display:none!important}
+  #help.tutorial-attention{
+    border-color:#E8A94A!important;color:#E8A94A!important;
+    box-shadow:0 0 0 3px rgba(232,169,74,.18)!important;
+    animation:tutorialHelpPulse 1.4s ease-in-out 4 alternate!important;
+  }
+  body.tutorial-chooser{overflow:hidden}
+  body.tutorial-chooser #tut{
+    pointer-events:auto!important;background:#102129!important;
+    padding:max(18px,env(safe-area-inset-top)) max(14px,env(safe-area-inset-right)) max(18px,env(safe-area-inset-bottom)) max(14px,env(safe-area-inset-left));
+    overflow-y:auto;-webkit-overflow-scrolling:touch;
+  }
+  body.tutorial-chooser #tut-box{
+    position:relative!important;inset:auto!important;transform:none!important;
+    width:100%!important;max-width:520px!important;min-height:calc(100% - 4px)!important;
+    max-height:none!important;margin:0 auto!important;overflow:visible!important;
+    padding:22px 4px 18px!important;border:0!important;border-radius:0!important;
+    background:transparent!important;box-shadow:none!important;
+    opacity:1!important;visibility:visible!important;
+    display:flex;flex-direction:column;justify-content:center;
+  }
+  body.tutorial-chooser #tut-step{font-size:10px!important;letter-spacing:.12em;margin-bottom:8px}
+  body.tutorial-chooser #tut-title{font-size:25px!important;line-height:1.12;margin:0 0 10px!important}
+  body.tutorial-chooser #tut-text{font-size:14px!important;line-height:1.5;color:#C6D2D7;margin-bottom:18px!important}
+  body.tutorial-chooser #tut-choices{display:block!important;margin-top:0!important}
+  body.tutorial-chooser .tut-choice-grid{display:grid!important;grid-template-columns:1fr!important;gap:12px!important}
+  body.tutorial-chooser .tut-choice{
+    min-height:112px!important;padding:15px 15px!important;border-width:1px 1px 1px 5px!important;
+    border-radius:7px!important;background:#193039!important;display:flex;flex-direction:column;justify-content:center;
+  }
+  body.tutorial-chooser .tut-choice .name{font-size:17px!important;margin-bottom:6px!important}
+  body.tutorial-chooser .tut-choice .goal{font-size:13px!important;line-height:1.42!important}
+  body.tutorial-chooser .tut-choice .risk{display:block!important;font-size:10px!important;line-height:1.35!important;margin-top:7px!important}
+  body.tutorial-chooser #tut-buttons{display:none!important}
+}
+
 /* iOS final containment fixes */
 #district-focus,#district-scene,#district-scene svg{min-width:0!important;width:100%!important;max-width:100%!important}
 #district-focus{contain:inline-size}
@@ -3831,14 +3873,40 @@ function showTutorialNudge(){
   const n=document.getElementById('tutorial-nudge'),h=document.getElementById('help');
   if(!n||!h)return;
   G.tutorialNudgeSeen=true;
-  n.style.display='block';
   h.classList.add('tutorial-attention');
+  if(tutorialIsMobile()){
+    n.style.display='none';
+    window.setTimeout(()=>h.classList.remove('tutorial-attention'),6500);
+    return;
+  }
+  n.style.display='block';
   requestAnimationFrame(positionTutorialNudge);
 }
 function tutorialNodes(){return{root:document.getElementById('tut'),hole:document.getElementById('tut-hole'),box:document.getElementById('tut-box'),step:document.getElementById('tut-step'),title:document.getElementById('tut-title'),text:document.getElementById('tut-text'),choices:document.getElementById('tut-choices'),buttons:document.getElementById('tut-buttons'),next:document.getElementById('tut-next')}}
 function usableTutorialTarget(el){if(!el||!el.isConnected)return false;const cs=getComputedStyle(el);if(cs.display==='none'||cs.visibility==='hidden')return false;const r=el.getBoundingClientRect();return Number.isFinite(r.width)&&Number.isFinite(r.height)&&r.width>8&&r.height>8}
-function showTutorialChooser(){hideTutorialNudge();const n=tutorialNodes();if(!n.root||!n.box||!n.choices||!n.buttons)return;tutOpen=true;document.body.classList.add('tutorial-open');n.box.classList.add('tut-ready');tutScenario=null;TUT=[];tutI=0;n.root.style.display='block';n.root.setAttribute('aria-hidden','false');n.hole.style.display='none';n.box.style.top='50%';n.box.style.transform='translateY(-50%)';n.step.textContent='Choose a guided strategy';n.title.textContent='Which play style do you want to learn?';n.text.textContent='Each walkthrough gives you a concrete opening, then explains which lines, constituents, delayed effects, and fiscal signals to watch.';n.choices.style.display='block';n.choices.innerHTML=`<div class="tut-choice-grid">${Object.entries(TUTORIAL_SCENARIOS).map(([k,s])=>`<button type="button" class="tut-choice" data-scenario="${k}"><div class="name">${s.name}</div><div class="goal">${s.goal}</div><div class="risk">${s.risk}</div></button>`).join('')}</div>`;n.buttons.style.display='none';n.choices.querySelectorAll('[data-scenario]').forEach(btn=>btn.addEventListener('click',()=>startScenarioTutorial(btn.dataset.scenario)))}
-function startScenarioTutorial(key){const s=TUTORIAL_SCENARIOS[key];if(!s)return;tutScenario=key;TUT=s.steps;tutI=0;const n=tutorialNodes();if(n.choices)n.choices.style.display='none';if(n.buttons)n.buttons.style.display='flex';tutShow(0)}
+function showTutorialChooser(){
+  hideTutorialNudge();
+  const n=tutorialNodes();if(!n.root||!n.box||!n.choices||!n.buttons)return;
+  tutOpen=true;document.body.classList.add('tutorial-open','tutorial-chooser');
+  n.box.classList.add('tut-ready');tutScenario=null;TUT=[];tutI=0;
+  n.root.style.display='block';n.root.setAttribute('aria-hidden','false');n.hole.style.display='none';
+  n.box.style.top=tutorialIsMobile()?'auto':'50%';n.box.style.transform=tutorialIsMobile()?'none':'translateY(-50%)';
+  n.step.textContent='Choose a guided strategy';
+  n.title.textContent='How do you want to play?';
+  n.text.textContent='Pick one approach. The tutorial will then guide you through the game one step at a time.';
+  n.choices.style.display='block';
+  n.choices.innerHTML=`<div class="tut-choice-grid">${Object.entries(TUTORIAL_SCENARIOS).map(([k,s])=>`<button type="button" class="tut-choice" data-scenario="${k}"><div class="name">${s.name}</div><div class="goal">${s.goal}</div><div class="risk">${s.risk}</div></button>`).join('')}</div>`;
+  n.buttons.style.display='none';
+  n.choices.querySelectorAll('[data-scenario]').forEach(btn=>btn.addEventListener('click',()=>startScenarioTutorial(btn.dataset.scenario)));
+  if(tutorialIsMobile())window.scrollTo(0,0);
+}
+function startScenarioTutorial(key){
+  const s=TUTORIAL_SCENARIOS[key];if(!s)return;
+  document.body.classList.remove('tutorial-chooser');
+  tutScenario=key;TUT=s.steps;tutI=0;
+  const n=tutorialNodes();if(n.choices)n.choices.style.display='none';if(n.buttons)n.buttons.style.display='flex';
+  tutShow(0);
+}
 function clearTutorialTarget(){
   if(tutTarget&&tutTarget.classList)tutTarget.classList.remove('tutorial-target-active');
   tutTarget=null;
@@ -3888,7 +3956,7 @@ function tutShow(index){
   })
 }
 function tutEnd(){
-  tutOpen=false;if(tutTimer){clearTimeout(tutTimer);tutTimer=null}if(tutScrollRAF){cancelAnimationFrame(tutScrollRAF);tutScrollRAF=null}clearTutorialTarget();document.body.classList.remove('tutorial-open');
+  tutOpen=false;if(tutTimer){clearTimeout(tutTimer);tutTimer=null}if(tutScrollRAF){cancelAnimationFrame(tutScrollRAF);tutScrollRAF=null}clearTutorialTarget();document.body.classList.remove('tutorial-open','tutorial-chooser');
   const n=tutorialNodes();if(n.root){n.root.style.display='none';n.root.setAttribute('aria-hidden','true')}if(n.hole)n.hole.style.display='block';if(n.box){n.box.style.transform='none';n.box.classList.remove('tut-ready')}
   try{const p=window.storage&&window.storage.set&&window.storage.set('tutseen','1');if(p&&typeof p.catch==='function')p.catch(()=>{})}catch(e){}
 }
