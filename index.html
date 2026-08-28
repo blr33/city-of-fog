@@ -834,8 +834,15 @@ svg,canvas{max-width:100%}
 
 /* Persistent mobile turn control: the core loop should never disappear while scrolling. */
 @media(max-width:600px){
+  /* iOS Safari: backdrop-filter on a sticky ancestor can make a fixed child behave
+     like it is attached to that ancestor instead of the viewport. Disable the
+     filtered HUD surface once in office so the turn control is truly viewport-fixed. */
+  body.in-office #hud{
+    -webkit-backdrop-filter:none!important;
+    backdrop-filter:none!important;
+  }
   body.in-office #next{
-    position:fixed;
+    position:fixed!important;
     z-index:62;
     left:max(10px,env(safe-area-inset-left));
     right:max(10px,env(safe-area-inset-right));
@@ -860,13 +867,20 @@ svg,canvas{max-width:100%}
 /* Mobile tutorial: calm, single-focus coaching instead of a full-screen spotlight. */
 .tutorial-target-active{position:relative;z-index:1}
 @media(max-width:680px){
-  body.tutorial-open #next{position:relative!important;left:auto!important;right:auto!important;bottom:auto!important;width:auto!important;box-shadow:none!important}
+  /* Keep the core turn action pinned even while the guided tour scrolls the page. */
+  body.tutorial-open #next{
+    position:fixed!important;
+    left:max(10px,env(safe-area-inset-left))!important;
+    right:max(10px,env(safe-area-inset-right))!important;
+    bottom:max(10px,env(safe-area-inset-bottom))!important;
+    width:auto!important;
+  }
   body.tutorial-open #tutorial-nudge{display:none!important}
   #tut{background:transparent!important}
   #tut-hole{display:none!important;box-shadow:none!important;border:0!important}
   #tut-box{
     position:fixed!important;left:max(10px,env(safe-area-inset-left))!important;right:max(10px,env(safe-area-inset-right))!important;
-    top:auto!important;bottom:max(10px,env(safe-area-inset-bottom))!important;transform:none!important;
+    top:auto!important;bottom:max(82px,calc(72px + env(safe-area-inset-bottom)))!important;transform:none!important;
     max-width:none!important;max-height:42vh!important;overflow:auto!important;padding:11px 12px!important;
     border-left:4px solid var(--service)!important;border-radius:6px;box-shadow:0 10px 28px rgba(0,0,0,.42);
     opacity:0;visibility:hidden;transition:opacity .22s ease;
