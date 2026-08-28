@@ -202,6 +202,7 @@ button.act .r{float:right;color:var(--service)}
 .tut-choice .name{font-size:13px;font-weight:760;margin-bottom:3px}
 .tut-choice .goal{font-size:11.5px;color:#C6D2D7;line-height:1.4}
 .tut-choice .risk{font-family:ui-monospace,monospace;font-size:9.5px;color:var(--dim);margin-top:5px}
+@media(max-width:680px){.tut-choice .risk{display:none}}
 .tax-explain{margin-top:8px;padding:8px 9px;border-left:3px solid #7FB6E6;background:rgba(127,182,230,.07);font-size:11.5px;line-height:1.45;color:#C6D2D7}
 .tax-explain b{color:var(--bone)}
 @media(max-width:680px){#tut-box{max-width:calc(100vw - 20px);max-height:78vh}}
@@ -856,6 +857,33 @@ svg,canvas{max-width:100%}
 }
 
 
+/* Mobile tutorial: calm, single-focus coaching instead of a full-screen spotlight. */
+.tutorial-target-active{position:relative;z-index:1}
+@media(max-width:680px){
+  body.tutorial-open #next{position:relative!important;left:auto!important;right:auto!important;bottom:auto!important;width:auto!important;box-shadow:none!important}
+  body.tutorial-open #tutorial-nudge{display:none!important}
+  #tut{background:transparent!important}
+  #tut-hole{display:none!important;box-shadow:none!important;border:0!important}
+  #tut-box{
+    position:fixed!important;left:max(10px,env(safe-area-inset-left))!important;right:max(10px,env(safe-area-inset-right))!important;
+    top:auto!important;bottom:max(10px,env(safe-area-inset-bottom))!important;transform:none!important;
+    max-width:none!important;max-height:42vh!important;overflow:auto!important;padding:11px 12px!important;
+    border-left:4px solid var(--service)!important;border-radius:6px;box-shadow:0 10px 28px rgba(0,0,0,.42);
+    opacity:0;visibility:hidden;transition:opacity .22s ease;
+  }
+  #tut-box.tut-ready{opacity:1;visibility:visible}
+  #tut-box h4{font-size:14px;margin:2px 0 4px}
+  #tut-box p{font-size:11.5px;line-height:1.42}
+  #tut-step{font-size:8.5px}
+  .tut-btns{margin-top:9px}
+  .tut-btns button{min-height:44px;padding:9px 10px}
+  .tutorial-target-active{
+    outline:2px solid var(--service);outline-offset:3px;
+    box-shadow:0 0 0 5px rgba(232,169,74,.10)!important;
+  }
+}
+@media(prefers-reduced-motion:reduce){#tut-box{transition:none!important}}
+
 /* iOS final containment fixes */
 #district-focus,#district-scene,#district-scene svg{min-width:0!important;width:100%!important;max-width:100%!important}
 #district-focus{contain:inline-size}
@@ -900,6 +928,7 @@ svg,canvas{max-width:100%}
   .pickcard{display:flex;flex-direction:column}
   .pickcard>.eyebrow{order:1}.pickcard>h2{order:2}.pickcard>#pick-detail{order:3}.pickcard>p{order:4}
   #pick-detail:not(:empty){margin:8px 0 4px}
+  #pick-detail .pick-detail-take{display:none!important}
 }
 
 </style>
@@ -2278,7 +2307,7 @@ function previewPick(i){
         ${hard? "A hard posting. Little room under current zoning, or rents already out of reach."
               : "A workable posting. There is room to build and rents have not run away yet."}
       </div>
-      <button class="act" style="margin-top:9px;text-align:center"
+      <button class="act pick-detail-take" style="margin-top:9px;text-align:center"
         onclick="takeOffice(${i})">Take office in ${h.name}</button>
     </div>`;
 }
@@ -3779,7 +3808,7 @@ const TUTORIAL_SCENARIOS={
     ['#district-focus','Look for steady mixed build-up','The board should show incremental growth over several turns, with a mix of housing types rather than stasis or an abrupt all-tower transformation.']
   ]}
 };
-let TUT=[],tutScenario=null,tutI=0,tutTimer=null,tutOpen=false;
+let TUT=[],tutScenario=null,tutI=0,tutTimer=null,tutOpen=false,tutTarget=null,tutScrollRAF=null;
 function hideTutorialNudge(){
   const n=document.getElementById('tutorial-nudge'),h=document.getElementById('help');
   if(n)n.style.display='none';
@@ -3808,11 +3837,61 @@ function showTutorialNudge(){
 }
 function tutorialNodes(){return{root:document.getElementById('tut'),hole:document.getElementById('tut-hole'),box:document.getElementById('tut-box'),step:document.getElementById('tut-step'),title:document.getElementById('tut-title'),text:document.getElementById('tut-text'),choices:document.getElementById('tut-choices'),buttons:document.getElementById('tut-buttons'),next:document.getElementById('tut-next')}}
 function usableTutorialTarget(el){if(!el||!el.isConnected)return false;const cs=getComputedStyle(el);if(cs.display==='none'||cs.visibility==='hidden')return false;const r=el.getBoundingClientRect();return Number.isFinite(r.width)&&Number.isFinite(r.height)&&r.width>8&&r.height>8}
-function showTutorialChooser(){hideTutorialNudge();const n=tutorialNodes();if(!n.root||!n.box||!n.choices||!n.buttons)return;tutOpen=true;tutScenario=null;TUT=[];tutI=0;n.root.style.display='block';n.root.setAttribute('aria-hidden','false');n.hole.style.display='none';n.box.style.top='50%';n.box.style.transform='translateY(-50%)';n.step.textContent='Choose a guided strategy';n.title.textContent='Which play style do you want to learn?';n.text.textContent='Each walkthrough gives you a concrete opening, then explains which lines, constituents, delayed effects, and fiscal signals to watch.';n.choices.style.display='block';n.choices.innerHTML=`<div class="tut-choice-grid">${Object.entries(TUTORIAL_SCENARIOS).map(([k,s])=>`<button type="button" class="tut-choice" data-scenario="${k}"><div class="name">${s.name}</div><div class="goal">${s.goal}</div><div class="risk">${s.risk}</div></button>`).join('')}</div>`;n.buttons.style.display='none';n.choices.querySelectorAll('[data-scenario]').forEach(btn=>btn.addEventListener('click',()=>startScenarioTutorial(btn.dataset.scenario)))}
+function showTutorialChooser(){hideTutorialNudge();const n=tutorialNodes();if(!n.root||!n.box||!n.choices||!n.buttons)return;tutOpen=true;document.body.classList.add('tutorial-open');n.box.classList.add('tut-ready');tutScenario=null;TUT=[];tutI=0;n.root.style.display='block';n.root.setAttribute('aria-hidden','false');n.hole.style.display='none';n.box.style.top='50%';n.box.style.transform='translateY(-50%)';n.step.textContent='Choose a guided strategy';n.title.textContent='Which play style do you want to learn?';n.text.textContent='Each walkthrough gives you a concrete opening, then explains which lines, constituents, delayed effects, and fiscal signals to watch.';n.choices.style.display='block';n.choices.innerHTML=`<div class="tut-choice-grid">${Object.entries(TUTORIAL_SCENARIOS).map(([k,s])=>`<button type="button" class="tut-choice" data-scenario="${k}"><div class="name">${s.name}</div><div class="goal">${s.goal}</div><div class="risk">${s.risk}</div></button>`).join('')}</div>`;n.buttons.style.display='none';n.choices.querySelectorAll('[data-scenario]').forEach(btn=>btn.addEventListener('click',()=>startScenarioTutorial(btn.dataset.scenario)))}
 function startScenarioTutorial(key){const s=TUTORIAL_SCENARIOS[key];if(!s)return;tutScenario=key;TUT=s.steps;tutI=0;const n=tutorialNodes();if(n.choices)n.choices.style.display='none';if(n.buttons)n.buttons.style.display='flex';tutShow(0)}
-function placeTutorial(el){const n=tutorialNodes();if(!tutOpen||!n.root||!n.hole||!n.box||!usableTutorialTarget(el))return;n.box.style.transform='none';n.hole.style.display='block';const r=el.getBoundingClientRect(),pad=6,top=Math.max(4,r.top-pad),left=Math.max(4,r.left-pad),right=Math.min(window.innerWidth-4,r.right+pad),bottom=Math.min(window.innerHeight-4,r.bottom+pad);n.hole.style.top=top+'px';n.hole.style.left=left+'px';n.hole.style.width=Math.max(12,right-left)+'px';n.hole.style.height=Math.max(12,bottom-top)+'px';const boxH=Math.max(120,n.box.offsetHeight||180),below=bottom+12;let boxTop=(window.innerHeight-below>boxH+10)?below:top-boxH-12;boxTop=Math.max(10,Math.min(window.innerHeight-boxH-10,boxTop));n.box.style.top=boxTop+'px'}
-function tutShow(index){const n=tutorialNodes();if(!n.root||!n.hole||!n.box||!n.step||!n.title||!n.text||!n.next)return;if(tutTimer){clearTimeout(tutTimer);tutTimer=null}let i=Math.max(0,index|0),el=null;while(i<TUT.length){const candidate=document.querySelector(TUT[i][0]);if(usableTutorialTarget(candidate)){el=candidate;break}i++}if(i>=TUT.length||!el){tutEnd();return}tutI=i;tutOpen=true;const[,title,copy]=TUT[i],scenario=TUTORIAL_SCENARIOS[tutScenario];n.root.style.display='block';n.root.setAttribute('aria-hidden','false');if(n.choices)n.choices.style.display='none';if(n.buttons)n.buttons.style.display='flex';n.step.textContent=`${scenario?scenario.name:'Tutorial'} · ${i+1} of ${TUT.length}`;n.title.textContent=title;n.text.textContent=copy;n.next.textContent=i===TUT.length-1?'Finish tutorial':'Next';try{el.scrollIntoView({block:'center',behavior:'auto'})}catch(e){}tutTimer=setTimeout(()=>{tutTimer=null;if(tutOpen&&usableTutorialTarget(el))placeTutorial(el);else if(tutOpen)tutShow(tutI+1)},40)}
-function tutEnd(){tutOpen=false;if(tutTimer){clearTimeout(tutTimer);tutTimer=null}const n=tutorialNodes();if(n.root){n.root.style.display='none';n.root.setAttribute('aria-hidden','true')}if(n.hole)n.hole.style.display='block';if(n.box)n.box.style.transform='none';try{const p=window.storage&&window.storage.set&&window.storage.set('tutseen','1');if(p&&typeof p.catch==='function')p.catch(()=>{})}catch(e){}}
+function clearTutorialTarget(){
+  if(tutTarget&&tutTarget.classList)tutTarget.classList.remove('tutorial-target-active');
+  tutTarget=null;
+}
+function tutorialIsMobile(){return window.matchMedia&&window.matchMedia('(max-width:680px)').matches}
+function tutorialScrollTo(el,done){
+  if(tutScrollRAF){cancelAnimationFrame(tutScrollRAF);tutScrollRAF=null}
+  const reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if(reduce||!tutorialIsMobile()){
+    try{el.scrollIntoView({block:'center',behavior:'auto'})}catch(e){}
+    done();return;
+  }
+  const r=el.getBoundingClientRect();
+  const startY=window.scrollY||window.pageYOffset||0;
+  const targetY=Math.max(0,startY+r.top-Math.max(78,window.innerHeight*.17));
+  const delta=targetY-startY,duration=720,start=performance.now();
+  const ease=t=>t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2;
+  const tick=now=>{
+    const t=Math.min(1,(now-start)/duration);
+    window.scrollTo(0,startY+delta*ease(t));
+    if(t<1)tutScrollRAF=requestAnimationFrame(tick);
+    else{tutScrollRAF=null;setTimeout(done,110)}
+  };
+  tutScrollRAF=requestAnimationFrame(tick);
+}
+function placeTutorial(el){
+  const n=tutorialNodes();if(!tutOpen||!n.root||!n.hole||!n.box||!usableTutorialTarget(el))return;
+  if(tutorialIsMobile()){
+    n.hole.style.display='none';n.box.style.top='auto';n.box.style.transform='none';n.box.classList.add('tut-ready');return;
+  }
+  n.box.classList.add('tut-ready');n.box.style.transform='none';n.hole.style.display='block';
+  const r=el.getBoundingClientRect(),pad=6,top=Math.max(4,r.top-pad),left=Math.max(4,r.left-pad),right=Math.min(window.innerWidth-4,r.right+pad),bottom=Math.min(window.innerHeight-4,r.bottom+pad);
+  n.hole.style.top=top+'px';n.hole.style.left=left+'px';n.hole.style.width=Math.max(12,right-left)+'px';n.hole.style.height=Math.max(12,bottom-top)+'px';
+  const boxH=Math.max(120,n.box.offsetHeight||180),below=bottom+12;let boxTop=(window.innerHeight-below>boxH+10)?below:top-boxH-12;boxTop=Math.max(10,Math.min(window.innerHeight-boxH-10,boxTop));n.box.style.top=boxTop+'px'
+}
+function tutShow(index){
+  const n=tutorialNodes();if(!n.root||!n.hole||!n.box||!n.step||!n.title||!n.text||!n.next)return;
+  if(tutTimer){clearTimeout(tutTimer);tutTimer=null}clearTutorialTarget();n.box.classList.remove('tut-ready');
+  let i=Math.max(0,index|0),el=null;while(i<TUT.length){const candidate=document.querySelector(TUT[i][0]);if(usableTutorialTarget(candidate)){el=candidate;break}i++}
+  if(i>=TUT.length||!el){tutEnd();return}
+  tutI=i;tutOpen=true;document.body.classList.add('tutorial-open');const[,title,copy]=TUT[i],scenario=TUTORIAL_SCENARIOS[tutScenario];
+  n.root.style.display='block';n.root.setAttribute('aria-hidden','false');if(n.choices)n.choices.style.display='none';if(n.buttons)n.buttons.style.display='flex';
+  n.step.textContent=`${scenario?scenario.name:'Tutorial'} · ${i+1} of ${TUT.length}`;n.title.textContent=title;n.text.textContent=copy;n.next.textContent=i===TUT.length-1?'Finish tutorial':'Next';
+  tutorialScrollTo(el,()=>{
+    if(!tutOpen||!usableTutorialTarget(el)){if(tutOpen)tutShow(tutI+1);return}
+    tutTarget=el;el.classList.add('tutorial-target-active');placeTutorial(el)
+  })
+}
+function tutEnd(){
+  tutOpen=false;if(tutTimer){clearTimeout(tutTimer);tutTimer=null}if(tutScrollRAF){cancelAnimationFrame(tutScrollRAF);tutScrollRAF=null}clearTutorialTarget();document.body.classList.remove('tutorial-open');
+  const n=tutorialNodes();if(n.root){n.root.style.display='none';n.root.setAttribute('aria-hidden','true')}if(n.hole)n.hole.style.display='block';if(n.box){n.box.style.transform='none';n.box.classList.remove('tut-ready')}
+  try{const p=window.storage&&window.storage.set&&window.storage.set('tutseen','1');if(p&&typeof p.catch==='function')p.catch(()=>{})}catch(e){}
+}
 function tutReposition(){if(!tutOpen||!TUT.length||tutI<0||tutI>=TUT.length)return;const el=document.querySelector(TUT[tutI][0]);if(usableTutorialTarget(el))placeTutorial(el)}
 
 /* ═══════════════════════ WIRING ═══════════════════════ */
