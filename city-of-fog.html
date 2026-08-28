@@ -686,7 +686,7 @@ body.in-office #hudbars,body.in-office #scorekey{display:none!important}
 .analyst-summary{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:10px 0}.analyst-stat{border:1px solid rgba(113,154,167,.25);padding:8px;background:rgba(8,16,20,.25)}.analyst-stat .v{font-family:ui-monospace,monospace;font-size:17px;font-weight:750}.analyst-stat .l{font-size:9px;color:var(--dim);margin-top:2px;text-transform:uppercase;letter-spacing:.06em}
 .driver-list{display:grid;gap:7px;margin-top:8px}.driver{display:grid;grid-template-columns:24px minmax(120px,.35fr) minmax(0,1fr);gap:8px;align-items:start;padding:8px 0;border-bottom:1px dotted rgba(113,154,167,.22)}.driver:last-child{border-bottom:0}.driver .arrow{font-size:18px;font-weight:800;text-align:center}.driver .move{font-size:11px;font-weight:700;color:var(--bone)}.driver .reason{font-size:11px;line-height:1.4;color:#C6D2D7}
 .analyst-rule{font-size:11.5px;line-height:1.45;color:#C6D2D7;background:rgba(232,169,74,.07);border-left:3px solid #E8A94A;padding:9px 10px;margin-top:10px}
-.analyst-chat{border-top:1px solid var(--rule);margin-top:12px;padding-top:10px}.analyst-chat label{font-size:10px;color:var(--dim);display:block;margin-bottom:5px}.analyst-form{display:grid;grid-template-columns:1fr auto;gap:7px}.analyst-form input{min-width:0;background:#09171D;border:1px solid var(--rule);color:var(--bone);padding:10px;font-size:13px;border-radius:3px}.analyst-form button{background:#E8A94A;color:#172127;border:0;border-radius:3px;font-weight:800;padding:0 14px;cursor:pointer}.analyst-answer{font-size:12px;line-height:1.5;color:#D8E1E4;margin-top:9px;min-height:18px}
+.analyst-chat{border-top:1px solid var(--rule);margin-top:12px;padding-top:10px}.analyst-chat label{font-size:10px;color:var(--dim);display:block;margin-bottom:5px}.analyst-form{display:grid;grid-template-columns:1fr auto;gap:7px}.analyst-form input{min-width:0;background:#09171D;border:1px solid var(--rule);color:var(--bone);padding:10px;font-size:13px;border-radius:3px}.analyst-form button{background:#E8A94A;color:#172127;border:0;border-radius:3px;font-weight:800;padding:0 14px;cursor:pointer}.analyst-answer{font-size:12px;line-height:1.5;color:#D8E1E4;margin-top:9px;min-height:18px;white-space:pre-line}
 #turn-reaction{position:fixed;left:50%;top:82px;transform:translate(-50%,-18px);width:min(720px,calc(100% - 28px));z-index:84;background:rgba(12,27,33,.97);border:1px solid #52717C;border-top:3px solid #E8A94A;border-radius:5px;padding:10px 12px;opacity:0;pointer-events:none;transition:opacity .2s,transform .25s}
 #turn-reaction.show{opacity:1;transform:translate(-50%,0)}
 .turn-react-head{display:flex;justify-content:space-between;align-items:baseline;gap:8px;margin-bottom:7px}.turn-react-head b{font-size:13px;color:var(--bone)}.turn-react-head span{font-family:ui-monospace,monospace;font-size:9px;color:var(--dim)}
@@ -706,6 +706,10 @@ body.in-office #hudbars,body.in-office #scorekey{display:none!important}
 .voter-row .bar .start-marker{position:absolute;top:-3px;bottom:-3px;width:2px;background:#F1C36A;box-shadow:0 0 0 1px rgba(8,16,20,.72);transform:translateX(-1px);z-index:2}
 .voter-row .vv{font-family:ui-monospace,monospace;font-size:10px;text-align:right;line-height:1.15}
 .voter-row .vv .start-v{display:block;font-size:8px;color:#E8A94A;margin-top:2px;white-space:nowrap}
+.power-divider{margin-top:9px;padding-top:8px;border-top:1px solid rgba(113,154,167,.28)}
+.power-label{font-family:ui-monospace,monospace;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);margin-bottom:3px}
+.power-note{font-size:9px;color:var(--dim);line-height:1.35;margin-top:4px}
+.office-avatar{width:38px;height:38px;display:block}
 .start-key{display:flex;align-items:center;gap:6px;font-family:ui-monospace,monospace;font-size:9px;color:var(--dim);margin-top:7px}
 .start-key i{display:inline-block;width:2px;height:11px;background:#F1C36A}
 .core-policy-grid{grid-template-columns:1fr!important;gap:8px!important}
@@ -855,7 +859,7 @@ body.in-office #hudbars,body.in-office #scorekey{display:none!important}
   <div class="analyst-card" role="dialog" aria-modal="true" aria-labelledby="analyst-title">
     <div class="analyst-head"><div><div class="eyebrow">City analyst · model explainer</div><div class="analyst-title" id="analyst-title">Why did this change?</div><div class="analyst-sub">Uses the current simulation state, recent moves, and the do-nothing counterfactual.</div></div><button class="analyst-close" id="analyst-close" type="button" aria-label="Close">×</button></div>
     <div id="analyst-body"></div>
-    <div class="analyst-chat"><label for="analyst-question">Ask why something went up or down last turn, or ask about a policy or constituency</label><form class="analyst-form" id="analyst-form"><input id="analyst-question" type="text" placeholder="Why did rent go up last turn?" autocomplete="off"><button type="submit">Ask</button></form><div class="analyst-answer" id="analyst-answer" aria-live="polite"></div></div>
+    <div class="analyst-chat"><label for="analyst-question">Ask why something changed, or ask how to move a metric or constituency</label><form class="analyst-form" id="analyst-form"><input id="analyst-question" type="text" placeholder="How do I make rent go down?" autocomplete="off"><button type="submit">Ask</button></form><div class="analyst-answer" id="analyst-answer" aria-live="polite"></div></div>
   </div>
 </div>
 <div id="turn-reaction" aria-live="polite"></div>
@@ -938,7 +942,35 @@ const CK = CLASSES.map(c=>c.k);
 
 /* ═══════════════════════ STATE ═══════════════════════ */
 let G, cells, rnd;
-const TERM=20, PER_TURN=2, MAX_ACTIONS=3;   // 20 model years, 2 per click; up to 3 policy decisions per turn
+const TERM=20, PER_TURN=2, MAX_ACTIONS=3;
+
+// Institutional property/development influence is district-specific. The office
+// exposure calibration is intentionally highest in the downtown office core,
+// SoMa, and Mission Bay, moderate in downtown-adjacent districts, and limited
+// in primarily residential neighborhoods. It is used for lobbying/campaign
+// pressure and for deciding whether an office-conversion political event makes sense.
+const OFFICE_EXPOSURE={
+  "Financial District":1.00,"SoMa":0.93,"Mission Bay":0.80,"Tenderloin":0.58,
+  "Chinatown":0.54,"Nob & Russian Hill":0.52,"North Beach":0.44,"Mission":0.43,
+  "Dogpatch":0.42,"Potrero Hill":0.39,"Western Addition":0.32,"Castro":0.28,
+  "Marina":0.24,"Pacific Heights":0.22,"Noe Valley":0.18,"Bernal Heights":0.18,
+  "Haight-Ashbury":0.18,"Richmond":0.16,"Sunset":0.12,"Excelsior":0.12,
+  "Bayview":0.18,"Ingleside":0.10,"Lake Merced":0.08,"Visitacion Valley":0.10,
+  "Twin Peaks":0.08,"Glen Park":0.10,"West Portal":0.10,"Presidio":0.05,
+  "Golden Gate Park":0.02
+};
+function officeExposureFor(name,job){
+  if(Object.prototype.hasOwnProperty.call(OFFICE_EXPOSURE,name)) return OFFICE_EXPOSURE[name];
+  return Math.max(.05,Math.min(.75,.10+Math.max(0,(job-.35))*0.75));
+}
+function propertyInfluence(h){
+  const office=Number.isFinite(h.officeBase)?h.officeBase:officeExposureFor(h.name,h.job);
+  const score=Math.max(.05,Math.min(1,office*.72+(h.baseZone/5)*.18+h.amen*.10));
+  const label=score>=.70?'high':score>=.42?'moderate':'limited';
+  return {score,label,office};
+}
+function officeConversionEligible(h){ return propertyInfluence(h).office>=.72 && h.baseZone!==0; }
+   // 20 model years, 2 per click; up to 3 policy decisions per turn
 function mb(a){return()=>{a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
 
 function inShore(px,py){
@@ -985,7 +1017,7 @@ function init(){
       pop:{tech:0,family:0,service:0,artist:0},
       vibe:h[6], vibeTarget:h[6], fabric:h[6]/100,
       entitled:null, pipeline:0, boost:0,
-      rc:1, inc:0, byRight:false, conservation:false, mixedUse:false, preserved:0, feeReliefUntil:0, feeReliefUsed:false,
+      rc:1, inc:0, byRight:false, conservation:false, mixedUse:false, preserved:0, feeReliefUntil:0, feeReliefUsed:false, officeBase:officeExposureFor(h[0],h[5]), officeConversion:null,
       assessed: 0.30+rnd()*0.5,   // fraction of market value on the tax roll (Prop 13)
     };
   });
@@ -1006,7 +1038,7 @@ function init(){
     hh:{tech:93000,family:126000,service:130000,artist:34000},  // households wanting SF
     outCum:{tech:0,family:0,service:0,artist:0},
     rc:1, inc:0, byRight:false,
-    unlocks:{mixed:false,preserve:false,fees:false}, policyResolved:{}, policyEventQueue:[], policyEventOpen:false, politicalMods:{tech:0,family:0,service:0,artist:0,owner:0},
+    unlocks:{office:false,mixed:false,preserve:false,fees:false}, policyResolved:{}, policyEventQueue:[], policyEventOpen:false, politicalMods:{tech:0,family:0,service:0,artist:0,owner:0,commercial:0},
     budget:400, taxRev:0, myTax:0,
     over:false, ov:"rent", sel:null
   };
@@ -1022,7 +1054,7 @@ function init(){
 }
 
 const totalUnits = () => G.hoods.reduce((a,h)=>a+h.units,0);
-const capOf = h => ZONES[h.zone].cap*h.area*(h.mixedUse?1.12:1)*(h.conservation?0.88:1);
+const capOf = h => ZONES[h.zone].cap*h.area*(h.mixedUse?1.12:1)*(h.officeConversion==='mixed'?1.10:h.officeConversion==='housing'?1.22:1)*(h.conservation?0.88:1);
 
 /* ── controlled stock: rent-controlled units are off the market ── */
 function controlledShare(h){
@@ -1295,9 +1327,9 @@ const RANKS=[
 const rankFor = margin => RANKS.filter(r=>margin>=r[0]).pop();
 
 /* ═══════════════════════ WHO IS ANGRY ═══════════════════════
-   Five constituencies. Four are household classes; the fifth is
-   incumbent homeowners, who gain when rents rise and lose when
-   anything is built near them. They are why the others are stuck. */
+   Five voter constituencies. Four are household classes; the fifth is
+   incumbent homeowners. A separate commercial-property power bloc is
+   tracked for institutional pressure, but it does not vote or enter the population pie. */
 
 const BLOCS=[
   {k:"tech",   n:"Tech workers",  col:"#7FB6E6"},
@@ -1306,6 +1338,7 @@ const BLOCS=[
   {k:"artist", n:"Artists &\nmakers", col:"#DE7396"},
   {k:"owner",  n:"Homeowners",    col:"#B9A6E0"},
 ];
+const POWER_BLOC={k:"commercial",n:"Property & development",col:"#89A3AC"};
 
 function moods(){
   const m={}, why={};
@@ -1336,23 +1369,49 @@ function moods(){
             : askIdx>1.15 ? `property values up ${Math.round((askIdx-1)*100)}% since you arrived`
             : askIdx<0.92 ? `property values down ${Math.round((1-askIdx)*100)}%`
             : "a quiet term so far";
+
+  // Institutional property interests are not voters. Their support is a compact
+  // proxy for office/commercial demand, foot traffic, development rights, and
+  // approval certainty. This matters most in job-heavy districts such as FiDi.
+  const basePop=CK.reduce((a,k)=>a+((B.pop&&B.pop[k])||0),0)||1;
+  const curPop=CK.reduce((a,k)=>a+(h.pop[k]||0),0)||1;
+  const footTraffic=curPop/basePop;
+  const rcEffect=h.rc===2?-8:h.rc===0?5:0;
+  const officeEffect=h.officeConversion==='mixed'?5:h.officeConversion==='housing'?-2:0;
+  const policyBoost=(h.byRight?6:0)+(h.mixedUse?8:0)+(h.feeReliefUntil>G.year?5:0)+(h.entitled!==null?3:0)-(h.conservation?8:0)+rcEffect+officeEffect;
+  m.commercial=Math.max(4,Math.min(96, 42+h.job*22+(footTraffic-1)*42+(askIdx-1)*18+policyBoost));
+  why.commercial = h.rc===2 ? "expanded residential rent control reduces expected property income and redevelopment flexibility"
+                 : h.officeConversion==='mixed' ? "adaptive mixed use gives underused offices a new path to value while preserving some commercial activity"
+                 : h.officeConversion==='housing' ? "a housing-first conversion push helps distressed office assets but removes more office capacity, splitting the industry"
+                 : h.mixedUse ? "mixed-use corridors add foot traffic and development opportunity"
+                 : h.conservation ? "the conservation overlay limits redevelopment rights"
+                 : h.byRight ? "by-right approvals reduce entitlement delay and uncertainty"
+                 : footTraffic>1.08 ? `resident foot traffic is up ${Math.round((footTraffic-1)*100)}% since 2026`
+                 : footTraffic<0.92 ? `resident foot traffic is down ${Math.round((1-footTraffic)*100)}% since 2026`
+                 : h.job>.82 ? "office demand and commercial activity remain strong"
+                 : "commercial demand is fairly steady";
   const pm=G.politicalMods||{};
   Object.keys(m).forEach(k=>{m[k]=Math.max(4,Math.min(96,m[k]+(pm[k]||0)));});
   return {m,why};
 }
 function addPoliticalShift(delta){
-  if(!G.politicalMods) G.politicalMods={tech:0,family:0,service:0,artist:0,owner:0};
+  if(!G.politicalMods) G.politicalMods={tech:0,family:0,service:0,artist:0,owner:0,commercial:0};
   Object.entries(delta||{}).forEach(([k,v])=>{G.politicalMods[k]=Math.max(-22,Math.min(22,(G.politicalMods[k]||0)+v));});
 }
 function politicalApproval(){
-  if(G.czar==null) return {approval:50,weights:{},m:{}};
+  if(G.czar==null) return {approval:50,voterApproval:50,electionEstimate:50,campaignEffect:0,weights:{},m:{},institutional:{score:0,label:'limited',support:50}};
   const {m}=moods(), vb=voterBase(), h=G.hoods[G.czar];
   const weights={tech:vb.v.tech||0,family:vb.v.family||0,service:vb.v.service||0,artist:vb.v.artist||0};
   const residentTotal=Object.values(weights).reduce((a,b)=>a+b,0)||1;
   weights.owner=residentTotal*(h.baseZone<=2?0.46:h.baseZone===3?0.34:0.26);
   const den=Object.values(weights).reduce((a,b)=>a+b,0)||1;
-  const approval=Object.keys(weights).reduce((s,k)=>s+weights[k]*(m[k]||50),0)/den;
-  return {approval,weights,m};
+  const voterApproval=Object.keys(weights).reduce((s,k)=>s+weights[k]*(m[k]||50),0)/den;
+  const inf=propertyInfluence(h), support=m.commercial||50;
+  // Institutional money/lobbying can shape the campaign environment, but it is
+  // deliberately capped so a non-voting industry cannot rescue an unpopular mayor.
+  const campaignEffect=Math.max(-3,Math.min(3,((support-50)/46)*3*inf.score));
+  const electionEstimate=Math.max(0,Math.min(100,voterApproval+campaignEffect));
+  return {approval:voterApproval,voterApproval,electionEstimate,campaignEffect,weights,m,institutional:{...inf,support}};
 }
 
 // Warnings name the mechanism, not just the mood: what happens NEXT if this
@@ -1370,7 +1429,7 @@ function warnings(){
     "Schools lose enrollment, and the households that stabilize a neighborhood go with them."]);
   const solv=G.parts?G.parts[4]:100;
   if(solv<35) w.push(["#7FB6E6","The tax base is shrinking",
-    "Frozen assessments mean less money each year. You will be able to afford less than you think."]);
+    "Total annual property-tax revenue is falling. You will have less budget capacity than the headline housing count suggests."]);
   return w;
 }
 const OWNER_REVOLT = () => (G.moodNow && G.moodNow.m.owner<24);
@@ -1397,7 +1456,7 @@ function cultureTarget(h){
   const mix       = Math.min(1,((h.pop.artist+h.pop.service)/tot)*1.9);
   const stability = Math.min(1,controlledShare(h)*1.2);
   const techDom   = Math.max(0,(h.pop.tech/tot)-0.42)/0.58;    // monoculture, not wealth per se
-  const placeBoost = (h.mixedUse?0.055:0) + Math.min(0.035,(h.preserved||0)/Math.max(1,h.units)*0.22);
+  const placeBoost = (h.mixedUse?0.055:0) + (h.officeConversion==='mixed'?0.040:h.officeConversion==='housing'?0.018:0) + Math.min(0.035,(h.preserved||0)/Math.max(1,h.units)*0.22);
   const v = 0.42*h.fabric + 0.20*artistDen + 0.16*mix
           + 0.14*dens     + 0.08*stability + placeBoost - 0.26*techDom;
   return Math.max(4,Math.min(100,v*100));
@@ -1428,7 +1487,7 @@ const VIBE_LBL = v => v<22?"Joyless": v<36?"Sterile": v<50?"Quiet": v<64?"Lively
 
 /* ═══════════════════════ YEAR STEP ═══════════════════════ */
 function snapshot(){ const {shadow,hist,...rest}=G; return JSON.parse(JSON.stringify(rest)); }
-function hoodBoardState(h){ return {i:h.i,name:h.name,area:h.area,zone:h.zone,social:h.social,units:h.units,built:h.built||0,mixedUse:!!h.mixedUse,preserved:h.preserved||0,pop:{...h.pop}}; }
+function hoodBoardState(h){ return {i:h.i,name:h.name,area:h.area,zone:h.zone,social:h.social,units:h.units,built:h.built||0,mixedUse:!!h.mixedUse,preserved:h.preserved||0,officeConversion:h.officeConversion||null,pop:{...h.pop}}; }
 function meanVibe(){ const a=G.hoods.filter(h=>h.baseZone!==0); return a.reduce((x,h)=>x+h.vibe,0)/a.length; }
 function totalOut(){ return CK.reduce((a,k)=>a+(G.out[k]||0),0); }
 
@@ -1464,6 +1523,8 @@ function advanceModel(verbose){
     if(h.rc===2) r*=0.80;                         // controls on new stock deter lenders
     if(h.byRight) r*=1.9;                         // no discretionary review to survive
     if(h.mixedUse) r*=1.08;                       // corridor sites become somewhat easier to use intensively
+    if(h.officeConversion==='mixed') r*=1.18;          // adaptive reuse makes some office floor area feasible as mixed-use housing
+    if(h.officeConversion==='housing') r*=1.32;        // stronger conversion push makes more office floor area available to housing
     if((h.feeReliefUntil||0)>=G.year) r*=1.24;    // temporary feasibility boost while relief is active
     return Math.min(room, h.units*r + h.area*0.4);
   });
@@ -1511,6 +1572,7 @@ function advanceModel(verbose){
 
 
 const POLICY_EVENTS={
+  office:{eye:'Downtown vacancy crisis',title:'Office conversion reaches the local agenda',copy:'Large amounts of office space are underused, and the district is office-heavy enough that the question can no longer be avoided. Housing advocates, downtown businesses, and property owners are pushing competing plans for adaptive reuse. San Francisco has used real planning waivers, fee incentives, and tax incentives for commercial-to-residential conversions; this game compresses those tools into one local choice.',unlock:'Office-to-housing / mixed-use conversion',trade:'Keep offices, allow adaptive mixed use, or push harder toward residential conversion. More conversion creates housing and residents, but removes some office capacity and divides property interests.'},
   mixed:{eye:'A new coalition forms',title:'Voters petition for a mixed-use corridor plan',copy:'Merchants, transit advocates, and housing groups have gathered enough support to force the issue onto the local agenda. They want apartments above shops and more housing along commercial corridors rather than a blanket neighborhood-wide upzone.',unlock:'Mixed-use corridor rezoning',trade:'Adds modest housing capacity and supports street activity and cultural vitality, but still brings visible development and can raise neighborhood demand.'},
   preserve:{eye:'Tenants organize',title:'An anti-displacement measure reaches the ballot',copy:'Rents and displacement have become prominent enough that tenant groups and neighborhood nonprofits are demanding a preservation program. They want the city to acquire existing buildings and convert them into permanently protected housing.',unlock:'Acquire & preserve existing homes',trade:'Adds almost no net housing, but protects lower-income incumbents, artists, and service workers. It costs public money and can reduce turnover.'},
   fees:{eye:'The pipeline is stuck',title:'The Board calls an emergency housing-feasibility vote',copy:'The district has legal capacity, but construction is arriving more slowly than expected. Builders, tradespeople, and housing advocates are pushing temporary fee reductions and deferrals to get entitled projects financed and under construction.',unlock:'Temporary development-fee relief',trade:'Boosts construction feasibility for several years and can bring future tax revenue on line sooner, but costs the public budget now.'}
@@ -1521,10 +1583,11 @@ function queuePolicyEvent(key){
 }
 function maybeUnlockPolicies(){
   if(G.czar==null||!G.base) return;
-  if(!G.unlocks) G.unlocks={mixed:false,preserve:false,fees:false};
+  if(!G.unlocks) G.unlocks={office:false,mixed:false,preserve:false,fees:false};
   const h=G.hoods[G.czar], turns=Math.max(0,(G.hist||[]).length-1);
   const tot=CK.reduce((a,k)=>a+(h.pop[k]||0),0)||1;
   const mix=(h.pop.artist+h.pop.service)/tot;
+  if(!G.unlocks.office && turns>=2 && officeConversionEligible(h)){ G.unlocks.office=true; queuePolicyEvent('office'); }
   if(!G.unlocks.mixed && turns>=3){ G.unlocks.mixed=true; queuePolicyEvent('mixed'); }
   if(!G.unlocks.preserve && turns>=5 && (effRent(h)>G.base.rent*1.10 || mix<G.base.mixShare-0.025 || turns>=7)){
     G.unlocks.preserve=true; queuePolicyEvent('preserve');
@@ -1614,7 +1677,7 @@ function step(){
     year:G.year,
     before:{...(G.moodPrev||G.moodNow.m)},
     after:{...G.moodNow.m},
-    delta:Object.fromEntries(BLOCS.map(b=>[b.k,(G.moodNow.m[b.k]||0)-((G.moodPrev||G.moodNow.m)[b.k]||0)])),
+    delta:Object.fromEntries([...BLOCS,POWER_BLOC].map(b=>[b.k,(G.moodNow.m[b.k]||0)-((G.moodPrev||G.moodNow.m)[b.k]||0)])),
     package:(G.lastPackage||[]).map(a=>({...a})),
     why:{...(G.moodNow.why||{})}
   });
@@ -2073,6 +2136,11 @@ function avatarSVG(kind,state){
 }
 
 
+function commercialAvatarSVG(state){
+  const mouth=state==='happy'?'<path d="M15 25 Q20 30 25 25" fill="none" stroke="#25343A" stroke-width="1.8" stroke-linecap="round"/>':state==='angry'?'<path d="M15 29 Q20 24 25 29" fill="none" stroke="#25343A" stroke-width="1.8" stroke-linecap="round"/>':'<path d="M15 27 H25" stroke="#25343A" stroke-width="1.8" stroke-linecap="round"/>';
+  return `<svg class="office-avatar" viewBox="0 0 40 40" role="img" aria-label="Property and development interests, ${state} reaction"><path d="M8 37 V7 L20 2 L32 7 V37 Z" fill="#7F929A" stroke="#45565D" stroke-width="1.4"/><path d="M20 2 V37" stroke="#5F737C" stroke-width="1"/><g fill="#D7E6EB" opacity=".9"><rect x="11" y="10" width="5" height="4"/><rect x="24" y="10" width="5" height="4"/><rect x="11" y="17" width="5" height="4"/><rect x="24" y="17" width="5" height="4"/></g><circle cx="16" cy="24" r="1.5" fill="#25343A"/><circle cx="24" cy="24" r="1.5" fill="#25343A"/>${mouth}<rect x="17" y="32" width="6" height="5" fill="#45565D"/></svg>`;
+}
+
 function miniAvatarSVG(kind){
   return avatarSVG(kind,'neutral').replace('class="avatar"','class="mini-avatar"');
 }
@@ -2337,23 +2405,23 @@ function metricTone(v,goodIfNegative=false){ if(Math.abs(v)<0.75) return 'mid'; 
 function actionWhy(metric,acts){
   const has=k=>acts.some(a=>a.kind===k), zone=acts.find(a=>a.kind==='zone');
   if(metric==='Homes'){
-    const out=[];if(has('conserve'))out.push('the conservation overlay reduced future capacity');if(zone)out.push('rezoning raised legal capacity');if(has('byright'))out.push('by-right approvals shortened delay');if(has('social'))out.push('public/nonprofit construction added homes directly');if(has('mixeduse'))out.push('mixed-use corridors added modest capacity on commercial streets');if(has('fees'))out.push('fee relief improved project feasibility');if(has('preserve'))out.push('preservation protected existing homes rather than adding net supply');if(has('rc'))out.push('rent-control changes mostly affect occupancy and turnover rather than legal capacity');
+    const out=[];if(has('conserve'))out.push('the conservation overlay reduced future capacity');if(zone)out.push('rezoning raised legal capacity');if(has('byright'))out.push('by-right approvals shortened delay');if(has('social'))out.push('public/nonprofit construction added homes directly');if(has('officeconvert'))out.push('office conversion opened a new housing source in an office-heavy district');if(has('officekeep'))out.push('keeping office-first zoning left that potential housing source unused');if(has('mixeduse'))out.push('mixed-use corridors added modest capacity on commercial streets');if(has('fees'))out.push('fee relief improved project feasibility');if(has('preserve'))out.push('preservation protected existing homes rather than adding net supply');if(has('rc'))out.push('rent-control changes mostly affect occupancy and turnover rather than legal capacity');
     return out.length?out.join('; ')+'.':'Homes move when capacity, approvals, feasibility, or direct public construction changes.';
   }
   if(metric==='Affordable'){
-    const out=[];if(has('rc'))out.push('rent-control coverage changed what incumbent tenants pay');if(has('conserve'))out.push('less future capacity can increase scarcity pressure');if(zone||has('byright')||has('fees'))out.push('more feasible supply can reduce rent pressure over time');if(has('social'))out.push('new non-market homes directly serve lower-income households');if(has('preserve'))out.push('existing homes were moved into permanently protected stock');if(has('mixeduse'))out.push('corridor supply adds homes, though added amenities can also raise demand');
+    const out=[];if(has('rc'))out.push('rent-control coverage changed what incumbent tenants pay');if(has('conserve'))out.push('less future capacity can increase scarcity pressure');if(zone||has('byright')||has('fees'))out.push('more feasible supply can reduce rent pressure over time');if(has('social'))out.push('new non-market homes directly serve lower-income households');if(has('officeconvert'))out.push('office conversion adds housing supply, with stronger effects under a housing-first conversion');if(has('officekeep'))out.push('keeping office-first zoning adds no conversion supply');if(has('preserve'))out.push('existing homes were moved into permanently protected stock');if(has('mixeduse'))out.push('corridor supply adds homes, though added amenities can also raise demand');
     return out.length?out.join('; ')+'.':'Affordability moves through total supply and how much housing is protected from market rents.';
   }
   if(metric==='Culture'){
-    const out=[];if(has('rc'))out.push('stronger incumbent protections can help existing residents remain');if(has('conserve'))out.push('less physical change can preserve neighborhood form but may worsen displacement through scarcity');if(has('preserve'))out.push('preservation keeps incumbent residents and some neighborhood fabric in place');if(has('mixeduse'))out.push('mixed-use streets support shops, foot traffic, and cultural activity');if(has('social'))out.push('non-market housing helps lower-income residents remain');if(zone||has('byright')||has('fees'))out.push('more homes can reduce displacement pressure, but the effect arrives with a lag');
+    const out=[];if(has('rc'))out.push('stronger incumbent protections can help existing residents remain');if(has('conserve'))out.push('less physical change can preserve neighborhood form but may worsen displacement through scarcity');if(has('preserve'))out.push('preservation keeps incumbent residents and some neighborhood fabric in place');if(has('mixeduse'))out.push('mixed-use streets support shops, foot traffic, and cultural activity');if(has('officeconvert'))out.push('adaptive reuse can add residents and street activity to an office-heavy district');if(has('officekeep'))out.push('keeping offices preserves the existing daytime-oriented activity pattern');if(has('social'))out.push('non-market housing helps lower-income residents remain');if(zone||has('byright')||has('fees'))out.push('more homes can reduce displacement pressure, but the effect arrives with a lag');
     return out.length?out.join('; ')+'.':'Culture responds slowly to who remains, commercial pressure, density, and neighborhood institutions.';
   }
   if(metric==='Diversity'){
-    const out=[];if(has('rc'))out.push('tenant protections change who can remain in place');if(has('conserve'))out.push('lower capacity can make entry harder for lower-income households');if(has('social'))out.push('non-market homes are allocated toward lower-income households');if(has('preserve'))out.push('existing lower-income residents are less exposed to displacement');if(zone||has('byright')||has('fees'))out.push('more supply can reduce exclusion if rents ease');if(has('mixeduse'))out.push('corridor growth can add housing while also increasing amenity demand');
+    const out=[];if(has('rc'))out.push('tenant protections change who can remain in place');if(has('conserve'))out.push('lower capacity can make entry harder for lower-income households');if(has('social'))out.push('non-market homes are allocated toward lower-income households');if(has('preserve'))out.push('existing lower-income residents are less exposed to displacement');if(has('officeconvert'))out.push('office conversion can broaden the residential population near jobs');if(has('officekeep'))out.push('keeping office-first zoning leaves residential access unchanged');if(zone||has('byright')||has('fees'))out.push('more supply can reduce exclusion if rents ease');if(has('mixeduse'))out.push('corridor growth can add housing while also increasing amenity demand');
     return out.length?out.join('; ')+'.':'Diversity tracks whether artists and service workers can still afford to live in the district.';
   }
   if(metric==='Tax base'){
-    const out=[];if(has('rc'))out.push('stronger rent protections reduce turnover and slow reassessment');if(has('conserve'))out.push('less future construction means less new assessed value');if(zone||has('byright')||has('social')||has('mixeduse')||has('fees'))out.push('completed homes add assessed value and total property-tax revenue');if(has('byright')||has('fees'))out.push('faster delivery brings new assessed value on line sooner');if(has('preserve'))out.push('preservation does not add many taxable homes, so its fiscal return is weaker than new construction');
+    const out=[];if(has('rc'))out.push('stronger rent protections reduce turnover and slow reassessment');if(has('conserve'))out.push('less future construction means less new assessed value');if(zone||has('byright')||has('social')||has('mixeduse')||has('fees')||has('officeconvert'))out.push('completed homes add assessed value and total property-tax revenue');if(has('officeconvert'))out.push('office conversion also trades some commercial capacity for residential assessed value');if(has('officekeep'))out.push('keeping offices preserves the existing land-use mix rather than adding residential assessed value');if(has('byright')||has('fees'))out.push('faster delivery brings new assessed value on line sooner');if(has('preserve'))out.push('preservation does not add many taxable homes, so its fiscal return is weaker than new construction');
     return out.length?out.join('; ')+'.':'Tax base here means total annual district property-tax revenue relative to 2026.';
   }
   return '';
@@ -2396,7 +2464,7 @@ function renderDashboard(){
   const startMood=G.startMood||pol.m;
   const shares=CK.map(k=>({k,n:names[k],v:(h.pop[k]||0)/tot*100,col:BLOCS.find(b=>b.k===k)?.col||'#89A3AC'}));
   let acc=0; const stops=shares.map(s=>{const a=acc;acc+=s.v;return `${s.col} ${a.toFixed(1)}% ${acc.toFixed(1)}%`;}).join(',');
-  people.innerHTML=`<div class="dash-kicker">People & politics</div><div class="approval-card"><div class="approval-head"><div><div style="font-size:13px;font-weight:700;color:var(--bone)">Re-election approval</div><div class="approval-sub">Weighted by the voters who currently live here and their modeled turnout.</div></div><div class="approval-big" style="color:${approval>=50?'#8FBE7E':'#E8674F'}">${Math.round(approval)}%</div></div><div style="font-family:ui-monospace,monospace;font-size:10px;margin-top:6px;color:${approval>=50?'#8FBE7E':'#E8674F'}">${approval>=50?'ON TRACK TO WIN':'ON TRACK TO LOSE'} · ${approval>=50?'+':''}${Math.round(approval-50)} pts</div></div><div class="constituent-overview"><div class="constituent-pie" style="background:conic-gradient(${stops})"><div class="pie-center"><b>${Math.round(tot).toLocaleString()}</b><span>households</span></div></div><div class="pie-legend">${shares.map(s=>`<span><i style="background:${s.col}"></i>${s.n} ${Math.round(s.v)}%</span>`).join('')}<div class="pie-note">Resident composition uses the four household groups. Homeowners overlap these groups, so they are shown separately as a political bloc rather than double-counted in the pie.</div></div></div><div style="margin-top:8px">${BLOCS.map(b=>{const v=pol.m[b.k]||50,w=(pol.weights[b.k]||0)/weightTotal*100,d=v-(prev[b.k]??v),sv=startMood[b.k]??v,state=reactionState(d),rcol=state==='happy'?'#8FBE7E':state==='angry'?'#E8674F':'#89A3AC',peak=lastMeaningfulConstituentReaction(b.k),pd=peak?(peak.delta[b.k]||0):0,reactTxt=Math.abs(d)>=2?(state==='happy'?'happier this turn':state==='angry'?'angrier this turn':'little change this turn'):(peak?`last big reaction ${pd>0?'+':''}${Math.round(pd)} in ${peak.year}`:'little change this turn');return `<div class="voter-row with-avatar" role="button" tabindex="0" onclick="openConstituentExplain('${b.k}')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openConstituentExplain('${b.k}')}" title="Click to explain this constituency"><div>${avatarSVG(b.k,state)}</div><div class="vn">${names[b.k]} <span style="color:var(--dim)">${Math.round(w)}% voters</span><div class="reaction-mini" style="color:${rcol}">${reactTxt} · ${v-sv>=0?'+':''}${Math.round(v-sv)} since 2026</div></div><div class="bar"><i style="width:${Math.max(2,Math.min(100,v))}%;background:${b.col}"></i><span class="start-marker" style="left:${Math.max(0,Math.min(100,sv))}%" title="2026 starting happiness: ${Math.round(sv)}"></span></div><div class="vv" style="color:${MOOD_COL(v)}">${Math.round(v)}<span class="start-v">start ${Math.round(sv)}</span></div></div>`}).join('')}</div><div class="start-key"><i></i><span>gold tick = 2026 starting happiness</span></div><div class="approval-sub">Click a constituency to ask why its mood changed.</div>`;
+  people.innerHTML=`<div class="dash-kicker">People & politics</div><div class="approval-card"><div class="approval-head"><div><div style="font-size:13px;font-weight:700;color:var(--bone)">Voter approval</div><div class="approval-sub">Weighted by the voters who currently live here and their modeled turnout. Institutional interests do not vote.</div></div><div class="approval-big" style="color:${approval>=50?'#8FBE7E':'#E8674F'}">${Math.round(approval)}%</div></div><div style="font-family:ui-monospace,monospace;font-size:10px;margin-top:6px;color:${pol.electionEstimate>=50?'#8FBE7E':'#E8674F'}">CAMPAIGN ${pol.campaignEffect>=0?'+':''}${pol.campaignEffect.toFixed(1)} · ELECTION EST. ${Math.round(pol.electionEstimate)}%</div></div><div class="constituent-overview"><div class="constituent-pie" style="background:conic-gradient(${stops})"><div class="pie-center"><b>${Math.round(tot).toLocaleString()}</b><span>households</span></div></div><div class="pie-legend">${shares.map(s=>`<span><i style="background:${s.col}"></i>${s.n} ${Math.round(s.v)}%</span>`).join('')}<div class="pie-note">Resident composition uses the four household groups. Homeowners overlap these groups, so they are shown separately as a political bloc rather than double-counted in the pie.</div></div></div><div style="margin-top:8px">${BLOCS.map(b=>{const v=pol.m[b.k]||50,w=(pol.weights[b.k]||0)/weightTotal*100,d=v-(prev[b.k]??v),sv=startMood[b.k]??v,state=reactionState(d),rcol=state==='happy'?'#8FBE7E':state==='angry'?'#E8674F':'#89A3AC',peak=lastMeaningfulConstituentReaction(b.k),pd=peak?(peak.delta[b.k]||0):0,reactTxt=Math.abs(d)>=2?(state==='happy'?'happier this turn':state==='angry'?'angrier this turn':'little change this turn'):(peak?`last big reaction ${pd>0?'+':''}${Math.round(pd)} in ${peak.year}`:'little change this turn');return `<div class="voter-row with-avatar" role="button" tabindex="0" onclick="openConstituentExplain('${b.k}')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openConstituentExplain('${b.k}')}" title="Click to explain this constituency"><div>${avatarSVG(b.k,state)}</div><div class="vn">${names[b.k]} <span style="color:var(--dim)">${Math.round(w)}% voters</span><div class="reaction-mini" style="color:${rcol}">${reactTxt} · ${v-sv>=0?'+':''}${Math.round(v-sv)} since 2026</div></div><div class="bar"><i style="width:${Math.max(2,Math.min(100,v))}%;background:${b.col}"></i><span class="start-marker" style="left:${Math.max(0,Math.min(100,sv))}%" title="2026 starting happiness: ${Math.round(sv)}"></span></div><div class="vv" style="color:${MOOD_COL(v)}">${Math.round(v)}<span class="start-v">start ${Math.round(sv)}</span></div></div>`}).join('')}</div>${(()=>{const b=POWER_BLOC,v=(G.moodNow||moods()).m.commercial||50,sv=startMood.commercial??v,d=v-(prev.commercial??v),state=reactionState(d),peak=lastMeaningfulConstituentReaction('commercial'),pd=peak?(peak.delta.commercial||0):0,reactTxt=Math.abs(d)>=2?(state==='happy'?'more supportive this turn':state==='angry'?'less supportive this turn':'little change this turn'):(peak?`last big reaction ${pd>0?'+':''}${Math.round(pd)} in ${peak.year}`:'little change this turn'),influence=propertyInfluence(h).label;return `<div class="power-divider"><div class="power-label">Institutional power · does not vote</div><div class="voter-row with-avatar" role="button" tabindex="0" onclick="openConstituentExplain('commercial')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openConstituentExplain('commercial')}" title="Click to explain this power bloc"><div>${commercialAvatarSVG(state)}</div><div class="vn">Property & development <span style="color:var(--dim)">${influence} influence</span><div class="reaction-mini">${reactTxt} · ${v-sv>=0?'+':''}${Math.round(v-sv)} since 2026</div></div><div class="bar"><i style="width:${Math.max(2,Math.min(100,v))}%;background:${b.col}"></i><span class="start-marker" style="left:${Math.max(0,Math.min(100,sv))}%" title="2026 starting support: ${Math.round(sv)}"></span></div><div class="vv" style="color:${MOOD_COL(v)}">${Math.round(v)}<span class="start-v">start ${Math.round(sv)}</span></div></div><div class="power-note">Does not vote. In ${h.name}, ${influence} institutional influence produces a ${pol.campaignEffect>=0?'+':''}${pol.campaignEffect.toFixed(1)} pt campaign effect. Election estimate: ${Math.round(pol.electionEstimate)}%. Influence is highest in the downtown office core and lower in primarily residential districts.</div></div>`})()}<div class="start-key"><i></i><span>gold tick = 2026 starting happiness/support</span></div><div class="approval-sub">Click a constituency or power bloc to ask why its mood changed.</div>`;
   renderLedger();
 }
 
@@ -2415,7 +2483,7 @@ function renderScore(){
     el.style.color = d>4?"#8FBE7E": d<-4?"#E8674F":"var(--service)";
     vs.innerHTML=`<span style="color:${d>0?'#8FBE7E':d<0?'#E8674F':'#89A3AC'}">${d>0?'+':''}${d}</span> vs nothing \u00b7 ${rankFor(d)[1]}`;
   }
-  const ah=document.getElementById('approval-hud');if(ah&&G.czar!=null){const pa=politicalApproval().approval;ah.innerHTML=`APPROVAL<b style="color:${pa>=50?'#8FBE7E':'#E8674F'}">${Math.round(pa)}%</b>`;}
+  const ah=document.getElementById('approval-hud');if(ah&&G.czar!=null){const pa=politicalApproval().approval;ah.innerHTML=`VOTER APPROVAL<b style="color:${pa>=50?'#8FBE7E':'#E8674F'}">${Math.round(pa)}%</b>`;}
   const bEl=document.getElementById('budget');
   bEl.textContent="$"+G.budget.toLocaleString()+"M";
   bEl.style.color = G.budget<120?"var(--warn)":G.budget<300?"#E8A94A":"var(--service)";
@@ -2449,6 +2517,8 @@ function actionLabel(kind,arg,h){
   if(kind==='conserve') return arg===0?'Zoning: remove conservation overlay':'Zoning: neighborhood conservation';
   if(kind==='social') return `Public / nonprofit affordable housing`;
   if(kind==='byright') return arg===0?'Approvals: restore discretionary review':'Approvals: housing by right';
+  if(kind==='officeconvert') return arg==='housing'?`Office conversion: prioritize housing`:`Office conversion: adaptive mixed use`;
+  if(kind==='officekeep') return `Office conversion: keep office stock`;
   if(kind==='mixeduse') return `Mixed-use corridor plan`;
   if(kind==='preserve') return `Acquire & preserve existing homes`;
   if(kind==='fees') return `Temporary development-fee relief`;
@@ -2494,25 +2564,26 @@ function renderMoves(){
 
   if(politics){
     if(!G.policyResolved)G.policyResolved={};
-    const order=['mixed','preserve','fees'];
+    const order=['office','mixed','preserve','fees'];
     const key=order.find(k=>G.unlocks?.[k]&&!G.policyResolved[k]);
     if(!key){politics.innerHTML='<div class="agenda-empty">No special ballot measure this term.</div>';return;}
     const e=POLICY_EVENTS[key];
     let adopt='';
+    if(key==='office') adopt=`<button class="act" ${(full||hasAction('officekeep'))?'disabled':''} onclick="doMove('officekeep')">Keep office stock <span class="r">$0M</span><div style="color:var(--dim);font-size:10px;margin-top:3px">protects office capacity · property industry tends to approve</div></button><button class="act" ${(full||hasAction('officeconvert')||G.budget<55)?'disabled':''} onclick="doMove('officeconvert','mixed')">Allow adaptive mixed use <span class="r">$55M</span><div style="color:var(--dim);font-size:10px;margin-top:3px">some offices become housing + shops/workspace</div></button><button class="act" ${(full||hasAction('officeconvert')||G.budget<90)?'disabled':''} onclick="doMove('officeconvert','housing')">Prioritize housing conversion <span class="r">$90M</span><div style="color:var(--dim);font-size:10px;margin-top:3px">more housing capacity · larger loss of office space</div></button>`;
     if(key==='mixed') adopt=`<button class="act" ${(full||hasAction('mixeduse')||G.budget<80)?'disabled':''} onclick="doMove('mixeduse')">Adopt measure <span class="r">$80M</span></button>`;
     if(key==='preserve'){const p=preserveOffer(h);adopt=`<button class="act" ${(full||hasAction('preserve')||p.cost>G.budget)?'disabled':''} onclick="doMove('preserve')">Adopt measure <span class="r">$${p.cost}M</span></button>`;}
     if(key==='fees') adopt=`<button class="act" ${(full||hasAction('fees')||G.budget<60)?'disabled':''} onclick="doMove('fees')">Adopt measure <span class="r">$60M</span></button>`;
-    politics.innerHTML=`<div class="agenda-head"><div class="agenda-title">Special measure this term</div><div class="agenda-hint">One issue at a time</div></div><div class="agenda-card"><div class="unlock">On the political agenda</div><div class="nm">${e.unlock}</div><div class="desc">${e.trade}</div><div class="agenda-actions">${adopt}<button class="act reject" ${(full||hasAction('reject'))?'disabled':''} onclick="doMove('reject','${key}')">Reject measure</button></div></div>`;
+    politics.innerHTML=`<div class="agenda-head"><div class="agenda-title">Special measure this term</div><div class="agenda-hint">One issue at a time</div></div><div class="agenda-card"><div class="unlock">On the political agenda</div><div class="nm">${e.unlock}</div><div class="desc">${e.trade}</div><div class="agenda-actions">${adopt}${key==='office'?'':`<button class="act reject" ${(full||hasAction('reject'))?'disabled':''} onclick="doMove('reject','${key}')">Reject measure</button>`}</div></div>`;
   }
 }
 function snapMove(){
   if(G.preMove) return;
   G.moodBeforePackage=moods().m;
-  G.preMove=JSON.stringify({hoods:G.hoods,budget:G.budget,decisions:G.decisions,socialBuilt:G.socialBuilt||0,politicalMods:G.politicalMods,policyResolved:G.policyResolved});
+  G.preMove=JSON.stringify({hoods:G.hoods,budget:G.budget,decisions:G.decisions,socialBuilt:G.socialBuilt||0,politicalMods:G.politicalMods,policyResolved:G.policyResolved,unlocks:G.unlocks});
 }
 function undoMove(){
   if(!G.preMove) return;
-  const p=JSON.parse(G.preMove);G.hoods=p.hoods;G.budget=p.budget;G.decisions=p.decisions;G.socialBuilt=p.socialBuilt;G.politicalMods=p.politicalMods||G.politicalMods;G.policyResolved=p.policyResolved||G.policyResolved;G.turnMove=null;G.preMove=null;G.moodBeforePackage=null;G.moodNow=moods();market();computeVibe(false);draw();render();
+  const p=JSON.parse(G.preMove);G.hoods=p.hoods;G.budget=p.budget;G.decisions=p.decisions;G.socialBuilt=p.socialBuilt;G.politicalMods=p.politicalMods||G.politicalMods;G.policyResolved=p.policyResolved||G.policyResolved;G.unlocks=p.unlocks||G.unlocks;G.turnMove=null;G.preMove=null;G.moodBeforePackage=null;G.moodNow=moods();market();computeVibe(false);draw();render();
 }
 function addTurnAction(kind,arg,h,text){
   if(!G.turnMove||!Array.isArray(G.turnMove.actions)) G.turnMove={actions:[]};
@@ -2538,15 +2609,19 @@ function doMove(kind,arg){
     if(h.rc===arg||G.budget<20){if(!acts.length)G.preMove=null;return;}G.budget-=20;h.rc=arg;const lbl=['Loosened tenant protections','Kept legacy rent-control coverage','Expanded tenant protections'][arg];G.decisions.push({year:G.year,hood:G.czar,kind:'rc',label:lbl,cost:20,eta:G.year});addPoliticalShift(arg===2?{owner:-6,tech:0,family:3,service:7,artist:7}:arg===0?{owner:5,tech:1,family:-2,service:-7,artist:-7}:{owner:1,family:1,service:2,artist:2});addTurnAction(kind,arg,h,lbl+'.');
   }else if(kind==='byright'){
     const target=arg!==0,cost=target?140:25;if(h.byRight===target||G.budget<cost){if(!acts.length)G.preMove=null;return;}G.budget-=cost;h.byRight=target;G.decisions.push({year:G.year,hood:null,kind:'byright',label:target?'Approved housing by right':'Restored discretionary review',cost,eta:G.year});addPoliticalShift(target?{owner:-7,tech:3,family:2,service:3,artist:2}:{owner:6,tech:-2,family:-2,service:-3,artist:-2});addTurnAction(kind,arg,h,target?'By-right approvals adopted.':'Discretionary review restored.');
+  }else if(kind==='officekeep'){
+    if(!G.unlocks?.office||G.policyResolved?.office){if(!acts.length)G.preMove=null;return;}G.policyResolved.office='kept';G.decisions.push({year:G.year,hood:G.czar,kind:'officekeep',label:'Kept office-first zoning in the adaptive-reuse vote',cost:0,eta:G.year});addPoliticalShift({commercial:6,tech:1,family:-1,service:-2,artist:-2});addTurnAction(kind,arg,h,'Office-first zoning kept.');
+  }else if(kind==='officeconvert'){
+    if(!G.unlocks?.office||G.policyResolved?.office){if(!acts.length)G.preMove=null;return;}const mode=arg==='housing'?'housing':'mixed',cost=mode==='housing'?90:55;if(G.budget<cost){if(!acts.length)G.preMove=null;return;}G.budget-=cost;h.officeConversion=mode;h.boost=Math.max(h.boost||0,mode==='housing'?6:4);h.amen=Math.min(1,h.amen+(mode==='mixed'?.035:.018));h.job=Math.max(.08,h.job-(mode==='housing'?.075:.025));G.policyResolved.office=mode;G.decisions.push({year:G.year,hood:G.czar,kind:'officeconvert',mode,label:mode==='housing'?'Prioritized office-to-housing conversion':'Allowed adaptive office-to-mixed-use conversion',cost,eta:G.year});addPoliticalShift(mode==='housing'?{commercial:-2,owner:-2,tech:1,family:3,service:4,artist:3}:{commercial:4,owner:-1,tech:2,family:2,service:3,artist:3});addTurnAction(kind,mode,h,mode==='housing'?'Housing-first office conversion adopted.':'Adaptive mixed-use conversion adopted.');
   }else if(kind==='mixeduse'){
-    if(!G.unlocks?.mixed||h.mixedUse||G.budget<80){if(!acts.length)G.preMove=null;return;}G.budget-=80;h.mixedUse=true;h.amen=Math.min(1,h.amen+0.045);h.job=Math.min(1,h.job+0.025);G.decisions.push({year:G.year,hood:G.czar,kind:'mixeduse',label:'Adopted mixed-use corridor plan',cost:80,eta:G.year});G.policyResolved.mixed='adopted';addPoliticalShift({owner:-4,tech:2,family:2,service:3,artist:4});addTurnAction(kind,arg,h,'Mixed-use corridor plan adopted.');
+    if(!G.unlocks?.mixed||h.mixedUse||G.budget<80){if(!acts.length)G.preMove=null;return;}G.budget-=80;h.mixedUse=true;h.amen=Math.min(1,h.amen+0.045);h.job=Math.min(1,h.job+0.025);G.decisions.push({year:G.year,hood:G.czar,kind:'mixeduse',label:'Adopted mixed-use corridor plan',cost:80,eta:G.year});G.policyResolved.mixed='adopted';addPoliticalShift({commercial:5,owner:-4,tech:2,family:2,service:3,artist:4});addTurnAction(kind,arg,h,'Mixed-use corridor plan adopted.');
   }else if(kind==='preserve'){
-    if(!G.unlocks?.preserve){if(!acts.length)G.preMove=null;return;}const p=preserveOffer(h);if(p.n<1||p.cost>G.budget){if(!acts.length)G.preMove=null;return;}G.budget-=p.cost;h.social=Math.min(h.units,h.social+p.n);h.preserved=(h.preserved||0)+p.n;h.fabric=Math.min(1,h.fabric+0.018);G.decisions.push({year:G.year,hood:G.czar,kind:'preserve',label:`Acquired & preserved ${p.n.toLocaleString()} existing homes`,cost:p.cost,eta:G.year});G.policyResolved.preserve='adopted';addPoliticalShift({owner:-2,family:2,service:6,artist:6});addTurnAction(kind,arg,h,`${p.n.toLocaleString()} existing homes preserved.`);
+    if(!G.unlocks?.preserve){if(!acts.length)G.preMove=null;return;}const p=preserveOffer(h);if(p.n<1||p.cost>G.budget){if(!acts.length)G.preMove=null;return;}G.budget-=p.cost;h.social=Math.min(h.units,h.social+p.n);h.preserved=(h.preserved||0)+p.n;h.fabric=Math.min(1,h.fabric+0.018);G.decisions.push({year:G.year,hood:G.czar,kind:'preserve',label:`Acquired & preserved ${p.n.toLocaleString()} existing homes`,cost:p.cost,eta:G.year});G.policyResolved.preserve='adopted';addPoliticalShift({commercial:-5,owner:-2,family:2,service:6,artist:6});addTurnAction(kind,arg,h,`${p.n.toLocaleString()} existing homes preserved.`);
   }else if(kind==='fees'){
-    if(!G.unlocks?.fees||h.feeReliefUsed||G.budget<60){if(!acts.length)G.preMove=null;return;}G.budget-=60;h.feeReliefUntil=G.year+6;h.feeReliefUsed=true;G.decisions.push({year:G.year,hood:G.czar,kind:'fees',label:`Adopted temporary development-fee relief through ${h.feeReliefUntil}`,cost:60,eta:G.year});G.policyResolved.fees='adopted';addPoliticalShift({owner:-2,tech:2,family:1,service:3,artist:0});addTurnAction(kind,arg,h,'Temporary fee relief adopted.');
+    if(!G.unlocks?.fees||h.feeReliefUsed||G.budget<60){if(!acts.length)G.preMove=null;return;}G.budget-=60;h.feeReliefUntil=G.year+6;h.feeReliefUsed=true;G.decisions.push({year:G.year,hood:G.czar,kind:'fees',label:`Adopted temporary development-fee relief through ${h.feeReliefUntil}`,cost:60,eta:G.year});G.policyResolved.fees='adopted';addPoliticalShift({commercial:6,owner:-2,tech:2,family:1,service:3,artist:0});addTurnAction(kind,arg,h,'Temporary fee relief adopted.');
   }else if(kind==='reject'){
     const key=arg;if(!G.unlocks?.[key]||G.policyResolved?.[key]){if(!acts.length)G.preMove=null;return;}if(!G.policyResolved)G.policyResolved={};G.policyResolved[key]='rejected';
-    const shifts=key==='mixed'?{owner:5,tech:-2,family:-2,service:-2,artist:-3}:key==='preserve'?{owner:2,family:-1,service:-5,artist:-5}:{owner:2,tech:-1,family:-1,service:-2};addPoliticalShift(shifts);
+    const shifts=key==='mixed'?{commercial:-5,owner:5,tech:-2,family:-2,service:-2,artist:-3}:key==='preserve'?{commercial:4,owner:2,family:-1,service:-5,artist:-5}:{commercial:-5,owner:2,tech:-1,family:-1,service:-2};addPoliticalShift(shifts);
     G.decisions.push({year:G.year,hood:G.czar,kind:'reject',label:`Rejected ${POLICY_EVENTS[key].unlock}`,cost:0,eta:G.year});addTurnAction('reject',key,h,`Rejected ${POLICY_EVENTS[key].unlock}.`);
   }
   G.moodNow=moods();market();computeVibe(false);draw();render();
@@ -2702,6 +2777,7 @@ function groupedDecisions(){
       years:[hits[0].year,last.year], n:hits.length,
       label: hits.length===1? last.label : `${last.label} (changed ${hits.length} times)`});
   });
+  d.filter(x=>['officeconvert','officekeep','mixeduse','preserve','fees','reject'].includes(x.kind)).forEach(x=>out.push({kind:x.kind,hood:x.hood,cost:x.cost||0,years:[x.year,x.year],n:1,label:x.label,mode:x.mode}));
   return out;
 }
 
@@ -2720,7 +2796,7 @@ function decisionEffect(d){
 function decisionPolicyKind(d){
   if(d.kind==='zone') return 'zone';
   if(d.kind==='social') return 'social';
-  if(['byright','mixeduse','preserve','fees'].includes(d.kind)) return d.kind;
+  if(['byright','mixeduse','preserve','fees','officeconvert','officekeep'].includes(d.kind)) return d.kind;
   const s=(d.label||'').toLowerCase();
   if(s.includes('tenant protections')) return 'rc';
   if(s.includes('below-market')) return 'inc';
@@ -2747,6 +2823,16 @@ function policyDefinition(d){
     model:'In the simulation this spends public budget to add non-market homes directly, increasing total supply and the permanently protected share of the housing stock.'
   };
 
+  if(kind==='officeconvert') return {
+    title:'What office conversion means',
+    text:d.mode==='housing'?'A housing-first conversion policy makes it easier to turn underused office floor area into homes, accepting a larger reduction in office capacity.':'Adaptive mixed use allows underused office buildings to become a combination of housing, shops, and workspace rather than requiring them to remain office-only.',
+    model:d.mode==='housing'?'In this simulation it raises housing capacity and construction feasibility more strongly, reduces the district job/office index, and can split property interests because distressed owners gain an exit while office-focused owners lose commercial capacity.':'In this simulation it adds a smaller housing-capacity and feasibility boost, slightly lowers office intensity, and supports street activity while preserving more commercial use.'
+  };
+  if(kind==='officekeep') return {
+    title:'What keeping office-first zoning means',
+    text:'You chose to preserve the district’s office role rather than create a special adaptive-reuse path for underused commercial buildings.',
+    model:'The housing model receives no conversion capacity or feasibility bonus. Property and development interests tend to like the certainty, while housing-oriented constituencies lose a potential source of downtown homes.'
+  };
   if(kind==='mixeduse') return {
     title:'What mixed-use corridor rezoning means',
     text:'Mixed-use rezoning allows more housing on commercial streets while retaining shops, restaurants, services, and other ground-floor activity. It concentrates growth along corridors rather than changing every residential block equally.',
@@ -2799,12 +2885,12 @@ function metricRule(metric){
 function driverForDecision(metric,d){
   const k=decisionPolicyKind(d),lbl=d.label||k;
   const D={
-    Homes:{zone:['↑','Raised legal housing capacity; effects arrive after the approval/construction lag.'],conserve:['↓','Reduced future capacity by preserving neighborhood scale.'],byright:['↑','Shortened approval delay, increasing the share of allowed projects that reach construction.'],social:['↑','Added public/nonprofit homes directly.'],mixeduse:['↑','Added corridor capacity and slightly improved feasibility.'],preserve:['→','Protected existing homes rather than adding many net-new homes.'],fees:['↑','Improved project feasibility temporarily.'],rc:['→','Primarily changes occupancy and turnover, not legal capacity.']},
-    Rent:{zone:['↓','More eventual supply can reduce scarcity pressure, but only after projects are built.'],conserve:['↑','Lower future capacity can increase scarcity if demand continues growing.'],byright:['↓','Faster delivery can bring supply online sooner.'],social:['↓','Adds below-market homes directly.'],mixeduse:['↕','Adds housing but also amenities that can raise demand.'],preserve:['↓','Moves existing units into protected stock, lowering exposure to market rent for incumbents.'],fees:['↓','Higher construction feasibility can add supply sooner.'],rc:['↓','Stronger protection lowers rent paid by incumbents; weaker protection does the reverse.']},
+    Homes:{zone:['↑','Raised legal housing capacity; effects arrive after the approval/construction lag.'],conserve:['↓','Reduced future capacity by preserving neighborhood scale.'],byright:['↑','Shortened approval delay, increasing the share of allowed projects that reach construction.'],social:['↑','Added public/nonprofit homes directly.'],officeconvert:['↑','Converted underused office capacity into a new housing pipeline; housing-first conversion has the stronger effect.'],officekeep:['→','Preserved office capacity rather than opening a new housing source.'],mixeduse:['↑','Added corridor capacity and slightly improved feasibility.'],preserve:['→','Protected existing homes rather than adding many net-new homes.'],fees:['↑','Improved project feasibility temporarily.'],rc:['→','Primarily changes occupancy and turnover, not legal capacity.']},
+    Rent:{zone:['↓','More eventual supply can reduce scarcity pressure, but only after projects are built.'],conserve:['↑','Lower future capacity can increase scarcity if demand continues growing.'],byright:['↓','Faster delivery can bring supply online sooner.'],social:['↓','Adds below-market homes directly.'],officeconvert:['↓','Adds a new source of downtown housing, though the effect arrives as conversions are delivered.'],officekeep:['→','Does not add conversion supply, so rent continues to depend on the existing housing pipeline.'],mixeduse:['↕','Adds housing but also amenities that can raise demand.'],preserve:['↓','Moves existing units into protected stock, lowering exposure to market rent for incumbents.'],fees:['↓','Higher construction feasibility can add supply sooner.'],rc:['↓','Stronger protection lowers rent paid by incumbents; weaker protection does the reverse.']},
     Affordable:null,
-    Culture:{zone:['↕','More housing can reduce displacement pressure, but construction and neighborhood change can create short-run political/cultural costs.'],conserve:['↕','Preserves physical form but can worsen scarcity-driven displacement.'],byright:['↕','Indirect effect through faster construction and displacement pressure.'],social:['↑','Helps lower-income residents remain.'],mixeduse:['↑','Supports storefronts, foot traffic, and cultural activity.'],preserve:['↑','Protects incumbent residents and cultural fabric.'],fees:['↕','Indirect effect through construction and affordability.'],rc:['↑','Stronger incumbent protection can preserve local networks.']},
-    Diversity:{zone:['↑','More housing can reduce exclusion if rents ease.'],conserve:['↓','Lower capacity can make entry harder for lower-income households.'],byright:['↑','Faster construction can ease exclusion if new supply arrives.'],social:['↑','Adds housing accessible to households the market often excludes.'],mixeduse:['↕','Adds housing, but stronger amenities can also increase demand.'],preserve:['↑','Reduces displacement of incumbent lower-income households.'],fees:['↑','Can increase total delivered housing.'],rc:['↕','Stronger protection helps incumbents remain but can reduce turnover for newcomers.']},
-    'Tax base':{zone:['↑','Newly built homes eventually add assessed value.'],conserve:['↓','Less future construction means less new assessed value.'],byright:['↑','Brings new assessed value online sooner when projects are feasible.'],social:['↑','New homes add assessed property value, though public subsidies cost budget separately.'],mixeduse:['↑','New corridor housing and activity can expand assessed value.'],preserve:['→','Preserves existing stock and adds little net taxable housing.'],fees:['↑','Can accelerate taxable construction, at an upfront public cost.'],rc:['↓','Stronger protections reduce turnover, slowing assessment resets in this model.']}
+    Culture:{zone:['↕','More housing can reduce displacement pressure, but construction and neighborhood change can create short-run political/cultural costs.'],conserve:['↕','Preserves physical form but can worsen scarcity-driven displacement.'],byright:['↕','Indirect effect through faster construction and displacement pressure.'],social:['↑','Helps lower-income residents remain.'],officeconvert:['↕','Adds residents and can revive street activity, but housing-first conversion reduces office activity more sharply.'],officekeep:['→','Preserves the existing office/residential balance.'],mixeduse:['↑','Supports storefronts, foot traffic, and cultural activity.'],preserve:['↑','Protects incumbent residents and cultural fabric.'],fees:['↕','Indirect effect through construction and affordability.'],rc:['↑','Stronger incumbent protection can preserve local networks.']},
+    Diversity:{zone:['↑','More housing can reduce exclusion if rents ease.'],conserve:['↓','Lower capacity can make entry harder for lower-income households.'],byright:['↑','Faster construction can ease exclusion if new supply arrives.'],social:['↑','Adds housing accessible to households the market often excludes.'],officeconvert:['↑','Adds housing in an office-heavy district and can broaden who is able to live near jobs.'],officekeep:['→','Leaves the residential supply path unchanged.'],mixeduse:['↕','Adds housing, but stronger amenities can also increase demand.'],preserve:['↑','Reduces displacement of incumbent lower-income households.'],fees:['↑','Can increase total delivered housing.'],rc:['↕','Stronger protection helps incumbents remain but can reduce turnover for newcomers.']},
+    'Tax base':{zone:['↑','Newly built homes eventually add assessed value.'],conserve:['↓','Less future construction means less new assessed value.'],byright:['↑','Brings new assessed value online sooner when projects are feasible.'],social:['↑','New homes add assessed property value, though public subsidies cost budget separately.'],officeconvert:['↕','New residential assessed value can grow, but the policy also reduces some office capacity; the net fiscal effect depends on how much housing actually gets delivered.'],officekeep:['→','Preserves the existing office role and does not create new residential assessed value.'],mixeduse:['↑','New corridor housing and activity can expand assessed value.'],preserve:['→','Preserves existing stock and adds little net taxable housing.'],fees:['↑','Can accelerate taxable construction, at an upfront public cost.'],rc:['↓','Stronger protections reduce turnover, slowing assessment resets in this model.']}
   }; D.Affordable=D.Rent;
   const x=(D[metric]||{})[k]; return x?{arrow:x[0],move:lbl,reason:x[1]}:null;
 }
@@ -2842,26 +2928,28 @@ function lastMeaningfulConstituentReaction(kind){
 function constituentPolicyReason(kind,a,delta){
   const dir=delta>0?'liked':'disliked';
   const K={
-    zone:{tech:'More legal housing capacity can ease scarcity and make room for growth.',family:'More housing capacity can create more options for families, but construction can also disrupt the neighborhood.',service:'More capacity can reduce exclusion if enough housing is actually built.',artist:'More capacity can relieve rent pressure, although rapid redevelopment can also threaten existing spaces.',owner:'Upzoning reduces the scarcity and neighborhood control that many incumbent homeowners value.'},
-    conserve:{tech:'Preserving neighborhood scale restricts future housing supply.',family:'Conservation protects physical character but can make family housing scarcer.',service:'Lower capacity can make it harder for lower-income workers to remain or move in.',artist:'Physical preservation can protect place character, but scarcity can still price artists out.',owner:'The conservation overlay protects neighborhood scale and limits nearby redevelopment.'},
-    byright:{tech:'By-right approval reduces delay and uncertainty for new housing.',family:'Faster approvals can bring additional housing choices online sooner.',service:'Faster delivery can reduce housing scarcity if projects remain feasible.',artist:'Faster housing delivery can relieve rent pressure, though it also accelerates physical change.',owner:'By-right approval removes some discretionary hearings and neighborhood veto points.'},
-    social:{tech:'Public/nonprofit housing adds supply but uses public budget.',family:'Public/nonprofit housing creates homes that are insulated from market rents.',service:'Non-market housing directly expands options affordable to lower-income workers.',artist:'Non-market housing helps residents with volatile or lower incomes remain in the district.',owner:'Publicly supported construction can mean more building and public spending nearby.'},
-    rc:{tech:'Tenant protections trade some market turnover for greater incumbent stability.',family:'Stronger tenant protections can make existing leases more secure.',service:'Rent protection directly lowers exposure to market rent for incumbent tenants.',artist:'Rent protection can help long-time artists and makers remain in place.',owner:'Stronger tenant protections reduce landlord flexibility and turnover; weaker rules do the reverse.'},
-    mixeduse:{tech:'Mixed-use corridors add homes near jobs, shops, and transit.',family:'Mixed-use corridors add housing and daily amenities without changing every residential block.',service:'More storefront activity can support service jobs while added housing can ease scarcity.',artist:'Mixed-use corridors support storefronts, foot traffic, and cultural activity.',owner:'Corridor growth concentrates development, but still brings added density and activity.'},
-    preserve:{tech:'Acquisition preserves existing homes rather than maximizing new supply.',family:'Preservation can stabilize existing households and keep units permanently affordable.',service:'Acquisition protects incumbent lower-income tenants from displacement.',artist:'Preservation protects residents and cultural networks without requiring redevelopment.',owner:'Acquisition changes ownership and use restrictions but usually creates less physical change than new construction.'},
-    fees:{tech:'Fee relief can make stalled housing projects financially feasible.',family:'More feasible projects can increase housing delivery, though public revenue is deferred or reduced.',service:'More construction can ease scarcity, but fee relief does not directly guarantee affordability.',artist:'More delivery can ease rent pressure, though construction itself can accelerate neighborhood change.',owner:'Fee relief encourages more development and construction activity.'},
-    reject:{tech:'Rejecting the measure kept the existing rules in place.',family:'Rejecting the measure avoided its trade-offs but also its potential benefits.',service:'Rejecting the measure preserved the status quo.',artist:'Rejecting the measure preserved the status quo.',owner:'Rejecting the measure avoided the proposed policy change.'}
+    zone:{tech:'More legal housing capacity can ease scarcity and make room for growth.',family:'More housing capacity can create more options for families, but construction can also disrupt the neighborhood.',service:'More capacity can reduce exclusion if enough housing is actually built.',artist:'More capacity can relieve rent pressure, although rapid redevelopment can also threaten existing spaces.',owner:'Upzoning reduces the scarcity and neighborhood control that many incumbent homeowners value.',commercial:'More development rights increase the option value of commercial and mixed-use property.'},
+    conserve:{tech:'Preserving neighborhood scale restricts future housing supply.',family:'Conservation protects physical character but can make family housing scarcer.',service:'Lower capacity can make it harder for lower-income workers to remain or move in.',artist:'Physical preservation can protect place character, but scarcity can still price artists out.',owner:'The conservation overlay protects neighborhood scale and limits nearby redevelopment.',commercial:'Conservation limits redevelopment rights and the option value of property.'},
+    byright:{tech:'By-right approval reduces delay and uncertainty for new housing.',family:'Faster approvals can bring additional housing choices online sooner.',service:'Faster delivery can reduce housing scarcity if projects remain feasible.',artist:'Faster housing delivery can relieve rent pressure, though it also accelerates physical change.',owner:'By-right approval removes some discretionary hearings and neighborhood veto points.',commercial:'By-right approval reduces entitlement delay and uncertainty for property owners and developers.'},
+    social:{tech:'Public/nonprofit housing adds supply but uses public budget.',family:'Public/nonprofit housing creates homes that are insulated from market rents.',service:'Non-market housing directly expands options affordable to lower-income workers.',artist:'Non-market housing helps residents with volatile or lower incomes remain in the district.',owner:'Publicly supported construction can mean more building and public spending nearby.',commercial:'Public/nonprofit housing can add foot traffic, but it creates less private development upside than market-rate construction.'},
+    rc:{tech:'Tenant protections trade some market turnover for greater incumbent stability.',family:'Stronger tenant protections can make existing leases more secure.',service:'Rent protection directly lowers exposure to market rent for incumbent tenants.',artist:'Rent protection can help long-time artists and makers remain in place.',owner:'Stronger tenant protections reduce landlord flexibility and turnover; weaker rules do the reverse.',commercial:'For the broader property & development industry, expanded residential rent control reduces expected residential property income and redevelopment flexibility; weaker rules do the reverse.'},
+    officeconvert:{tech:'Office conversion creates housing near jobs and transit.',family:'Adaptive reuse can add homes without changing every residential block.',service:'More downtown residents can support service jobs and reduce commute pressure.',artist:'Mixed-use conversion can add residents, storefront activity, and flexible space.',owner:'Conversion concentrates change in existing commercial buildings but can still add density and activity.',commercial:'Property interests are divided: distressed office owners gain an exit, while office-focused owners may dislike losing commercial capacity.'},
+    officekeep:{tech:'Keeping offices preserves employment space but does not add housing.',family:'Keeping offices leaves a potential housing source unused.',service:'Keeping offices preserves job space but adds no new resident base.',artist:'Keeping offices preserves the status quo downtown rather than adding residential activity.',owner:'Keeping offices avoids a visible conversion push.',commercial:'Keeping office-first zoning preserves commercial capacity and policy certainty.'},
+    mixeduse:{tech:'Mixed-use corridors add homes near jobs, shops, and transit.',family:'Mixed-use corridors add housing and daily amenities without changing every residential block.',service:'More storefront activity can support service jobs while added housing can ease scarcity.',artist:'Mixed-use corridors support storefronts, foot traffic, and cultural activity.',owner:'Corridor growth concentrates development, but still brings added density and activity.',commercial:'Mixed-use corridors add customers, foot traffic, and valuable development rights.'},
+    preserve:{tech:'Acquisition preserves existing homes rather than maximizing new supply.',family:'Preservation can stabilize existing households and keep units permanently affordable.',service:'Acquisition protects incumbent lower-income tenants from displacement.',artist:'Preservation protects residents and cultural networks without requiring redevelopment.',owner:'Acquisition changes ownership and use restrictions but usually creates less physical change than new construction.',commercial:'Public acquisition can remove property from the private market, which commercial property interests generally dislike.'},
+    fees:{tech:'Fee relief can make stalled housing projects financially feasible.',family:'More feasible projects can increase housing delivery, though public revenue is deferred or reduced.',service:'More construction can ease scarcity, but fee relief does not directly guarantee affordability.',artist:'More delivery can ease rent pressure, though construction itself can accelerate neighborhood change.',owner:'Fee relief encourages more development and construction activity.',commercial:'Fee relief improves project feasibility and lowers the cost of bringing development on line.'},
+    reject:{tech:'Rejecting the measure kept the existing rules in place.',family:'Rejecting the measure avoided its trade-offs but also its potential benefits.',service:'Rejecting the measure preserved the status quo.',artist:'Rejecting the measure preserved the status quo.',owner:'Rejecting the measure avoided the proposed policy change.',commercial:'Rejecting the measure keeps the existing property and development rules in place.'}
   };
   const base=(K[a.kind]&&K[a.kind][kind])||'This policy changed the rules or neighborhood conditions this constituency cares about.';
   return `${dir.charAt(0).toUpperCase()+dir.slice(1)} this package. ${base}`;
 }
 function openConstituentExplain(kind){
-  const names={tech:'Tech workers',family:'Families',service:'Service & trades',artist:'Artists & makers',owner:'Homeowners'},mo=G.moodNow||moods(),prev=G.moodPrev||mo.m,pol=politicalApproval(),v=pol.m[kind]||50,d=v-(prev[kind]??v),sv=(G.startMood&&G.startMood[kind]!=null)?G.startMood[kind]:v,reason=mo.why[kind]||'Their mood reflects current housing costs and neighborhood conditions.';
+  const names={tech:'Tech workers',family:'Families',service:'Service & trades',artist:'Artists & makers',owner:'Homeowners',commercial:'Property & development'},mo=G.moodNow||moods(),prev=G.moodPrev||mo.m,pol=politicalApproval(),v=mo.m[kind]||50,d=v-(prev[kind]??v),sv=(G.startMood&&G.startMood[kind]!=null)?G.startMood[kind]:v,reason=mo.why[kind]||'Their mood reflects current housing costs and neighborhood conditions.';
   const peak=lastMeaningfulConstituentReaction(kind), pd=peak?(peak.delta[kind]||0):0;
   const modal=document.getElementById('analyst-modal');document.getElementById('analyst-title').textContent=`Why are ${names[kind]} ${MOOD_LBL(v).toLowerCase()}?`;
   const peakSummary=peak?`<div class="analyst-stat"><div class="v" style="color:${pd>0?'#8FBE7E':'#E8674F'}">${pd>0?'+':''}${Math.round(pd)}</div><div class="l">last big reaction · ${peak.year}</div></div>`:`<div class="analyst-stat"><div class="v">—</div><div class="l">no big reaction yet</div></div>`;
   const peakDrivers=peak&&peak.package&&peak.package.length?peak.package.map(a=>`<div class="driver"><div class="arrow" style="color:${pd>0?'#8FBE7E':'#E8674F'}">${pd>0?'↑':'↓'}</div><div class="move">${actionChipLabel(a)}</div><div class="reason">${constituentPolicyReason(kind,a,pd)}</div></div>`).join(''):peak?`<div class="analyst-rule">Their ${peak.year} jump came mainly from neighborhood conditions changing rather than a new policy package.</div>`:`<div class="analyst-rule">No completed turn has produced a large enough happiness jump to attribute yet.</div>`;
-  document.getElementById('analyst-body').innerHTML=`<div class="analyst-summary"><div class="analyst-stat"><div class="v" style="color:${MOOD_COL(v)}">${Math.round(v)}/100</div><div class="l">current mood</div></div>${peakSummary}<div class="analyst-stat"><div class="v">${Math.round((pol.weights[kind]||0)/Math.max(1,Object.values(pol.weights).reduce((a,b)=>a+b,0))*100)}%</div><div class="l">of modeled voter weight</div></div></div><div class="analyst-rule"><b>Main reason now:</b> ${reason}</div><div class="eyebrow" style="margin-top:12px">Last meaningful political reaction</div>${peak?`<div class="analyst-rule"><b>${peak.enactedYear} policy package → ${peak.year} reaction:</b> ${names[kind]} moved ${pd>0?'+':''}${Math.round(pd)} happiness points. We use the most recent local peak in mood change rather than automatically blaming the latest quiet turn.</div>`:''}<div class="driver-list">${peakDrivers}</div>`;
+  document.getElementById('analyst-body').innerHTML=`<div class="analyst-summary"><div class="analyst-stat"><div class="v" style="color:${MOOD_COL(v)}">${Math.round(v)}/100</div><div class="l">current mood</div></div>${peakSummary}<div class="analyst-stat"><div class="v">${kind==='commercial'?propertyInfluence(G.hoods[G.czar]).label.toUpperCase():Math.round((pol.weights[kind]||0)/Math.max(1,Object.values(pol.weights).reduce((a,b)=>a+b,0))*100)+'%'}</div><div class="l">${kind==='commercial'?'local institutional influence · does not vote':'of modeled voter weight'}</div></div></div><div class="analyst-rule"><b>Main reason now:</b> ${reason}</div>${kind==='commercial'?`<div class="analyst-rule"><b>Lobbying / campaign effect:</b> ${pol.campaignEffect>=0?'+':''}${pol.campaignEffect.toFixed(1)} election points in ${G.hoods[G.czar].name}. The cap is ±3 points and scales with this district’s property/development influence.</div>`:''}<div class="eyebrow" style="margin-top:12px">Last meaningful political reaction</div>${peak?`<div class="analyst-rule"><b>${peak.enactedYear} policy package → ${peak.year} reaction:</b> ${names[kind]} moved ${pd>0?'+':''}${Math.round(pd)} happiness points. We use the most recent local peak in mood change rather than automatically blaming the latest quiet turn.</div>`:''}<div class="driver-list">${peakDrivers}</div>`;
   document.getElementById('analyst-answer').textContent='';modal.classList.add('open');modal.setAttribute('aria-hidden','false');document.getElementById('analyst-question').value='';
 }
 function closeAnalyst(){const m=document.getElementById('analyst-modal');if(!m)return;m.classList.remove('open');m.setAttribute('aria-hidden','true');}
@@ -2941,8 +3029,178 @@ function lastTurnMetricAnswer(metric,question){
   return out;
 }
 
+function adviceAvailability(kind){
+  const h=G.hoods[G.czar];
+  if(kind==='rc2') return h.rc===2?'already active':'available now';
+  if(kind==='rc0') return h.rc===0?'already active':'available now';
+  if(kind==='byright') return h.byRight?'already active':'available now';
+  if(kind==='review') return !h.byRight?'already active':'available now';
+  if(kind==='conserve') return h.conservation?'already active':'available now';
+  if(kind==='deconserve') return !h.conservation?'already inactive':'available now';
+  if(kind==='zone') return h.entitled!==null?'rezoning already in the pipeline':h.zone>=5?'already at maximum zoning':'available now';
+  if(kind==='social'){
+    const n=Math.round(h.area*18),cost=Math.round(n*.35);
+    return G.budget>=cost?'available now':`needs about $${cost}M; current budget is $${G.budget}M`;
+  }
+  const key=kind==='mixeduse'?'mixed':kind==='officeconvert'?'office':kind;
+  if(['office','mixed','preserve','fees'].includes(key)){
+    if(key==='office'&&G.policyResolved?.office) return 'already resolved';
+    if(key==='mixed'&&h.mixedUse) return 'already active';
+    if(key==='fees'&&h.feeReliefUsed) return (h.feeReliefUntil||0)>=G.year?'already active':'already used';
+    if(G.policyResolved?.[key]) return `already ${G.policyResolved[key]} this run`;
+    if(G.unlocks?.[key]) return 'on the political agenda now';
+    return 'not on the agenda yet';
+  }
+  return 'available now';
+}
+function adviceItem(label,kind,why,trade){
+  return {label,kind,why,trade,status:adviceAvailability(kind)};
+}
+function actionableAdvice(items){
+  const usable=items.filter(x=>!/^already (active|inactive|used|adopted|rejected)/.test(x.status)&&!/^rezoning already/.test(x.status));
+  const now=usable.filter(x=>x.status==='available now'||x.status==='on the political agenda now'||x.status.startsWith('needs about'));
+  const later=usable.filter(x=>x.status==='not on the agenda yet');
+  return {now:now.slice(0,3),later:later.slice(0,1)};
+}
+function strategyAdvice(target){
+  const h=G.hoods[G.czar], t=target.toLowerCase();
+  let intro='',items=[],trade='';
+  if(t==='rent'){
+    intro='To push average rent paid down, combine one direct protection with one supply-side move. The fastest effect is on incumbent tenants; new construction works with a lag.';
+    items=[
+      adviceItem('Expand rent protections','rc2','Directly lowers the rent paid by a larger share of incumbent tenants.','Less turnover slows assessment resets and can weaken tax growth.'),
+      adviceItem('Fund public / nonprofit affordable housing','social','Adds permanently below-market homes directly instead of waiting for market rents to adjust.','Uses public budget.'),
+      adviceItem('Adopt housing by right','byright','Gets already-legal housing through approvals faster, so supply arrives sooner.','Can anger homeowners who value discretionary review.'),
+      adviceItem(h.conservation?'Remove the conservation overlay':'Allow more housing','zone','More legal capacity can reduce scarcity after projects are approved and built.','Slow effect; visible development can reduce homeowner approval.'),
+      adviceItem('Acquire & preserve existing homes','preserve','Moves existing units into protected stock and shields incumbents from market exposure.','Adds almost no net housing and costs public money.'),
+      adviceItem('Temporary development-fee relief','fees','Can make marginal projects feasible and accelerate construction.','Costs public money now and only helps if projects are otherwise viable.')
+    ];
+    trade='If you only strengthen rent control without adding supply, incumbent renters can benefit while future entrants face continued scarcity.';
+  }else if(t==='culture'){
+    intro='Culture improves when artists, service workers, venues, and neighborhood institutions can remain. In this model it moves slowly, so protect people and cultural fabric rather than expecting an instant jump.';
+    items=[
+      adviceItem('Fund public / nonprofit affordable housing','social','Helps lower-income residents remain, which supports cultural continuity.','Uses public budget.'),
+      adviceItem('Acquire & preserve existing homes','preserve','Directly reduces displacement and slightly reinforces cultural fabric.','Adds almost no net housing.'),
+      adviceItem('Adopt mixed-use corridors','mixeduse','Supports storefronts, foot traffic, and cultural activity while adding corridor housing.','Amenities can also increase demand and rents.'),
+      adviceItem('Expand rent protections','rc2','Protects incumbent residents and local networks from rapid rent resets.','Can reduce turnover and tax reassessment.'),
+      adviceItem('Add housing capacity / speed delivery','byright','Over time, more supply can reduce displacement pressure.','Indirect and lagged; construction itself can be politically disruptive.')
+    ];
+    trade='Physical preservation alone is not enough: a neighborhood can keep the same buildings while artists and service workers are priced out.';
+  }else if(t==='artists'){
+    intro='Artists become happier when they can afford to stay and when the district retains cultural activity. The most reliable levers are protection, non-market housing, and preservation.';
+    items=[
+      adviceItem('Expand rent protections','rc2','Artists react strongly to protection from market-rent resets.','Homeowners tend to dislike stronger protections.'),
+      adviceItem('Fund public / nonprofit affordable housing','social','Adds homes accessible to households the market often excludes.','Uses public budget.'),
+      adviceItem('Acquire & preserve existing homes','preserve','Protects incumbent residents and cultural networks without requiring redevelopment.','Adds little net supply.'),
+      adviceItem('Adopt mixed-use corridors','mixeduse','Supports storefronts, studios, foot traffic, and neighborhood activity.','Can raise amenity demand as well as supply.'),
+      adviceItem('Adopt housing by right','byright','Faster supply can ease exclusion over time.','The happiness effect is indirect and homeowners may react negatively.')
+    ];
+    trade='The strongest artist-friendly package can conflict with homeowner and commercial-property interests, so watch political approval as well as Culture.';
+  }else if(t==='service'){
+    intro='Service and trades households respond mostly to affordability, protected housing, and whether enough homes exist near jobs.';
+    items=[
+      adviceItem('Fund public / nonprofit affordable housing','social','Directly adds housing accessible to lower-income households.','Uses public budget.'),
+      adviceItem('Expand rent protections','rc2','Helps incumbent service workers stay in place.','Reduces turnover and can weaken tax reassessment.'),
+      adviceItem('Acquire & preserve existing homes','preserve','Protects lower-income incumbents from displacement.','Adds little net supply.'),
+      adviceItem('Adopt housing by right','byright','Speeds delivery of legal housing and can ease scarcity over time.','Homeowners may dislike the loss of discretionary review.')
+    ];
+    trade='Protection helps current residents most; additional supply matters more for workers trying to enter the district later.';
+  }else if(t==='homeowners'){
+    intro='To make homeowners happier, reduce visible neighborhood change and preserve discretionary control. Those choices usually trade political support for higher long-run scarcity.';
+    items=[
+      adviceItem('Preserve neighborhood scale','conserve','The conservation overlay directly protects neighborhood form and produces a strong homeowner political benefit.','Reduces future housing capacity and can raise scarcity pressure.'),
+      adviceItem('Restore discretionary review','review','Restores hearings and neighborhood veto points.','Slows housing delivery.'),
+      adviceItem('Loosen rent protections','rc0','In this model homeowners tend to prefer weaker tenant restrictions.','Service workers and artists react strongly against it and displacement risk rises.')
+    ];
+    trade='A homeowner-maximizing strategy can improve reelection support in owner-heavy districts while worsening rent, diversity, and housing outcomes.';
+  }else if(t==='homes'){
+    intro='To increase completed homes, you need both legal capacity and a path from entitlement to construction.';
+    items=[
+      adviceItem(h.conservation?'Remove the conservation overlay / upzone':'Allow more housing','zone','Raises legal capacity, which is the ceiling on future construction.','Construction arrives after a lag and homeowners may react negatively.'),
+      adviceItem('Adopt housing by right','byright','Shortens the approval pipeline so allowed projects reach construction faster.','Does not create capacity by itself.'),
+      adviceItem('Fund public / nonprofit affordable housing','social','Adds homes directly rather than relying on private feasibility.','Uses public budget.'),
+      adviceItem('Temporary development-fee relief','fees','Raises feasibility when capacity exists but projects are stalled.','Costs public money now.'),
+      adviceItem('Convert underused offices','officeconvert','In office-heavy districts this opens a separate housing source without rezoning residential blocks.','Only appears where office stock is substantial; housing-first conversion reduces office capacity.')
+    ];
+    trade='Upzoning without approvals or feasibility can leave a large paper capacity that never becomes housing.';
+  }else if(t==='diversity'){
+    intro='To raise the artist + service-worker share, reduce displacement and make some housing accessible below the highest-income market.';
+    items=[
+      adviceItem('Fund public / nonprofit affordable housing','social','Adds housing accessible to households the market often excludes.','Uses public budget.'),
+      adviceItem('Acquire & preserve existing homes','preserve','Keeps lower-income incumbent households from being displaced.','Adds little net supply.'),
+      adviceItem('Expand rent protections','rc2','Helps current lower-income renters remain.','Can reduce turnover for newcomers.'),
+      adviceItem('Add and speed housing supply','byright','More supply can reduce exclusion if rents ease.','Indirect and slower than preservation/protection.')
+    ];
+    trade='Diversity can improve through protecting incumbents, but a closed low-turnover neighborhood can still be hard for new lower-income households to enter.';
+  }else if(t==='tax'){
+    intro='To grow the tax base, add assessed value through completed housing and, secondarily, turnover that resets assessments. The score uses total annual tax revenue, not tax per home.';
+    items=[
+      adviceItem('Adopt housing by right','byright','Brings taxable new construction on line sooner when projects are feasible.','Can reduce homeowner approval.'),
+      adviceItem('Allow more housing','zone','Creates room for more assessed property value over time.','Slow and politically costly in some districts.'),
+      adviceItem('Temporary development-fee relief','fees','Can accelerate stalled construction and future assessed value.','Costs public budget immediately.'),
+      adviceItem('Adopt mixed-use corridors','mixeduse','Adds corridor development rights and activity that can expand assessed value.','Can increase demand as well as supply.'),
+      adviceItem('Convert underused offices','officeconvert','Can create new residential assessed value in office-heavy districts.','May reduce some office capacity and its associated economic activity.'),
+      adviceItem('Loosen rent protections','rc0','More turnover can reset assessments upward in this model.','This is fiscally helpful but can sharply worsen tenant stability and political support among renters.')
+    ];
+    trade='Do not optimize tax revenue in isolation: the easiest fiscal gains can conflict with affordability and displacement goals.';
+  }else if(t==='families'){
+    intro='Families generally benefit from a combination of housing availability, predictable rents, and neighborhood stability.';
+    items=[
+      adviceItem('Fund public / nonprofit affordable housing','social','Adds stable below-market homes directly.','Uses public budget.'),
+      adviceItem('Allow modest additional housing','zone','Expands the number of homes available over time.','Visible change can reduce homeowner approval.'),
+      adviceItem('Expand rent protections','rc2','Helps incumbent renter families avoid rapid rent resets.','Can reduce turnover and tax reassessment.'),
+      adviceItem('Adopt housing by right','byright','Speeds housing delivery after capacity exists.','Homeowners may dislike reduced discretionary review.')
+    ];
+    trade='A balanced family strategy usually works better than maximizing either neighborhood preservation or development alone.';
+  }else if(t==='tech'){
+    intro='Tech workers mainly benefit from more housing availability and faster delivery, although they can also bid up demand when supply stays constrained.';
+    items=[
+      adviceItem('Adopt housing by right','byright','Gets legal housing built faster.','Reduces discretionary neighborhood control.'),
+      adviceItem('Allow more housing','zone','Raises long-run capacity.','Slow to deliver and politically contentious.'),
+      adviceItem('Temporary development-fee relief','fees','Helps stalled private projects reach construction.','Uses public resources to improve project feasibility.')
+    ];
+    trade='More supply can improve tech-worker housing access without necessarily improving affordability for lower-income groups unless other policies accompany it.';
+  }else if(t==='commercial'){
+    intro='Property & development interests prefer predictable rules, viable projects, strong property demand, and development rights. In office-heavy districts they also care intensely about what happens to underused office stock.';
+    items=[
+      adviceItem('Adopt mixed-use corridors','mixeduse','Adds customers, foot traffic, and valuable development rights.','Can create resident opposition to added activity and density.'),
+      adviceItem('Choose adaptive mixed-use office conversion','officeconvert','Gives underused office assets a new use while retaining some commercial activity.','A housing-first version can split the industry by removing more office capacity.'),
+      adviceItem('Adopt housing by right','byright','Reduces approval uncertainty and speeds development.','Homeowners may dislike it.'),
+      adviceItem('Temporary development-fee relief','fees','Improves development feasibility.','Costs public budget.'),
+      adviceItem('Allow more housing','zone','Raises redevelopment option value and future customer base.','Can provoke neighborhood opposition.')
+    ];
+    trade='Property & development interests do not vote. Their support affects a small, district-scaled campaign/lobbying modifier, capped at ±3 election points.';
+  }else return null;
+
+  const a=actionableAdvice(items);
+  const lines=[intro];
+  if(a.now.length){
+    lines.push('Best options from your current position:');
+    a.now.forEach((x,i)=>lines.push(`${i+1}. ${x.label} — ${x.why} [${x.status}]`));
+  }else lines.push('You already have most of the direct levers for this goal active; watch the next turn or two for lagged effects before stacking more policy on top.');
+  if(a.later.length) lines.push(`Later, if it reaches the agenda: ${a.later[0].label} — ${a.later[0].why}`);
+  lines.push(`Main trade-off: ${trade}`);
+  return lines.join('\n');
+}
+function goalAdviceTarget(s){
+  const goal=/\b(how\s+(?:do|can|could|should)\s+i|what\s+(?:can|should)\s+i\s+do|make\b|improve\b|raise\b|lower\b|reduce\b|increase\b|get\b.*\b(?:higher|lower|happier|better)|bring\b.*\bdown|push\b.*\b(?:up|down))/.test(s);
+  if(!goal) return null;
+  if(/artist/.test(s)&&/happy|happier|support|approval/.test(s)) return 'artists';
+  if(/service|trade/.test(s)&&/happy|happier|support|approval/.test(s)) return 'service';
+  if(/homeowner|owner|nimby/.test(s)&&/happy|happier|support|approval/.test(s)) return 'homeowners';
+  if(/famil/.test(s)&&/happy|happier|support|approval/.test(s)) return 'families';
+  if(/tech/.test(s)&&/happy|happier|support|approval/.test(s)) return 'tech';
+  if(/commercial|landlord|developer|office owner|property interest|development industry/.test(s)&&/happy|happier|support|approval/.test(s)) return 'commercial';
+  if(/culture|vital|scene/.test(s)) return 'culture';
+  if(/rent|afford/.test(s)) return 'rent';
+  if(/divers/.test(s)) return 'diversity';
+  if(/tax|revenue|fiscal/.test(s)) return 'tax';
+  if(/home|housing|unit|build/.test(s)&&!/homeowner/.test(s)) return 'homes';
+  return null;
+}
 function answerAnalystQuestion(q){
-  const s=(q||'').toLowerCase(); if(!s.trim()) return 'Ask about a metric, a constituency, a recent policy, or why something went up or down last turn.';
+  const s=(q||'').toLowerCase(); if(!s.trim()) return 'Ask why something changed, or ask how to move rent, culture, homes, tax base, diversity, or a constituency.';
+  const goalTarget=goalAdviceTarget(s); if(goalTarget){const a=strategyAdvice(goalTarget);if(a)return a;}
   const turnQuestion=/\b(last turn|this turn|did|went|rose|rise|rising|fell|fall|falling|increased|increase|decreased|decrease|dropped|drop|grew|grow)\b/.test(s)||/go\s+(up|down)/.test(s);
   if(/tax|revenue|fiscal/.test(s)){ if(turnQuestion) return lastTurnMetricAnswer('Tax base',s); const st=metricState('Tax base');return `Tax base is ${st.value}, ${st.fmt(st.turn)} this turn and ${st.fmt(st.vs)} versus doing nothing. ${metricRule('Tax base')} ${recentMetricDrivers('Tax base').map(x=>x.move+': '+x.reason).join(' ')}`;}
   if(/rent|afford/.test(s)){ if(turnQuestion) return lastTurnMetricAnswer('Rent',s); const st=metricState('Rent');return `Average rent paid is ${st.value}, ${st.fmt(st.turn)} this turn and ${st.fmt(st.vs)} versus doing nothing. ${metricRule('Rent')}`;}
@@ -2953,11 +3211,13 @@ function answerAnalystQuestion(q){
   if(/owner|nimby/.test(s)){const mo=G.moodNow||moods();return `Homeowners are at ${Math.round(mo.m.owner)}/100 happiness. ${mo.why.owner} Their political reaction also reflects recent rezoning, conservation, approval reform, and tenant-protection choices.`;}
   if(/tech/.test(s)){const mo=G.moodNow||moods();return `Tech workers are at ${Math.round(mo.m.tech)}/100 happiness. ${mo.why.tech}`;}
   if(/famil/.test(s)){const mo=G.moodNow||moods();return `Families are at ${Math.round(mo.m.family)}/100 happiness. ${mo.why.family}`;}
-  if(/approval|election|reelect|politic/.test(s)){const p=politicalApproval();return `Re-election approval is ${Math.round(p.approval)}%. It is a turnout-weighted combination of constituency happiness plus immediate political reactions to your enacted choices. The district's voter composition also changes as households move in and out.`;}
+  if(/commercial|landlord|developer|office owner|property interest|development industry/.test(s)){const mo=G.moodNow||moods(),h=G.hoods[G.czar],inf=propertyInfluence(h).label;return `Property & development interests are at ${Math.round(mo.m.commercial)}/100 support with ${inf} local influence. ${mo.why.commercial} They do not cast votes or enter the population pie. Their district-scaled lobbying and campaign support can shift the final election estimate by at most three points.`;}
+  if(/office.*(convert|conversion)|adaptive reuse|convert.*office/.test(s)){const h=G.hoods[G.czar],inf=propertyInfluence(h);return officeConversionEligible(h)?`This is an office-heavy district (${inf.label} property/development influence). After the vacancy event reaches the agenda, you can keep office-first zoning, allow adaptive mixed use, or prioritize residential conversion. Mixed use gives a smaller housing boost while retaining more commercial activity; housing-first creates more housing capacity but reduces the job/office index more sharply.`:`${h.name} is not modeled as office-heavy enough for office conversion to become a major local political event. The game reserves that choice for the downtown office core, SoMa, and Mission Bay-type districts.`;}
+  if(/approval|election|reelect|politic/.test(s)){const p=politicalApproval();return `Voter approval is ${Math.round(p.voterApproval)}%. Property & development interests do not vote, but their district-scaled lobbying/campaign support currently changes the election estimate by ${p.campaignEffect>=0?'+':''}${p.campaignEffect.toFixed(1)} points, to ${Math.round(p.electionEstimate)}%. The institutional effect is capped at ±3 points.`;}
   if(/by.?right/.test(s)){const d={kind:'byright',label:'Housing by right'};const z=policyDefinition(d);return `${z.text} ${z.model}`;}
   if(/rent control|tenant/.test(s)){const d={kind:'rc',label:'Tenant protections'};const z=policyDefinition(d);return `${z.text} ${z.model}`;}
   if(/rezone|zoning/.test(s)){const d={kind:'zone',label:'Rezoning'};const z=policyDefinition(d);return `${z.text} ${z.model}`;}
-  return 'I can explain why homes, rent, culture, diversity, or tax base went up or down last turn; approval; each constituency; housing by right; rent control; or rezoning. I use the actual last-turn delta, enacted package, counterfactual, and model rules rather than inventing a causal story.';
+  return 'I can explain why homes, rent, culture, diversity, or tax base changed; or advise how to move those metrics and constituency happiness. Try ‘How do I make rent go down?’, ‘How do I make artists happier?’, or ‘How do I improve culture?’. Advice uses the policies actually available in this run and calls out the main trade-off.';
 }
 function showTurnReactionAnimation(){
   const box=document.getElementById('turn-reaction'); if(!box||!G.moodNow||!G.moodPrev)return; const names={tech:'Tech',family:'Families',service:'Service',artist:'Artists',owner:'Owners'};
@@ -3154,15 +3414,17 @@ function endPostmortem(h,q,election){
   if(h.rc===2) mechanisms.push('Stronger rent control protected incumbents, while also reducing turnover and making some new construction harder to finance.');
   if(h.rc===0) mechanisms.push('Looser rent control increased turnover and exposure to market rents.');
   if(h.conservation) mechanisms.push('The conservation overlay reduced physical change and pleased many owners, but it also constrained future supply.');
+  if(h.officeConversion==='mixed') mechanisms.push('Adaptive office conversion turned some underused commercial capacity into mixed-use housing while preserving more office activity.');
+  if(h.officeConversion==='housing') mechanisms.push('Housing-first office conversion opened a larger new housing source but reduced office capacity more sharply.');
   if(h.mixedUse) mechanisms.push('Mixed-use corridor zoning concentrated additional housing on commercial streets and supported street activity.');
   if((h.preserved||0)>0) mechanisms.push('Acquisition and preservation protected existing households rather than creating much net-new supply.');
   if(h.feeReliefUntil && G.year<=h.feeReliefUntil+4) mechanisms.push('Fee relief improved project feasibility at the cost of near-term public revenue.');
 
   const winner=wins.length ? `What worked: ${wins.slice(0,2).join('; ')}.` : 'What worked: no outcome clearly beat the do-nothing path by a large margin.';
   const loser=costs.length ? `What did not: ${costs.slice(0,2).join('; ')}.` : 'What did not: there was no single large downside relative to doing nothing, although trade-offs remained.';
-  const politics=election.approval>=50
-    ? `Politically, the coalition you left in the district was just strong enough to return you to office at ${Math.round(election.approval)}% approval.`
-    : `Politically, the costs outweighed the gains for the voters who remained: you finished at ${Math.round(election.approval)}% approval and lost re-election.`;
+  const politics=election.electionEstimate>=50
+    ? `Politically, voters finished at ${Math.round(election.voterApproval)}% approval. The district’s property/development campaign environment shifted the election estimate by ${election.campaignEffect>=0?'+':''}${election.campaignEffect.toFixed(1)} points, leaving you at ${Math.round(election.electionEstimate)}% and returning you to office.`
+    : `Politically, voters finished at ${Math.round(election.voterApproval)}% approval. The district’s property/development campaign environment shifted the election estimate by ${election.campaignEffect>=0?'+':''}${election.campaignEffect.toFixed(1)} points, leaving you at ${Math.round(election.electionEstimate)}% and costing you re-election.`;
   return `${winner} ${loser} ${mechanisms.slice(0,2).join(' ')} ${politics}`;
 }
 function ending(){
@@ -3172,7 +3434,7 @@ function ending(){
   const [styleName, styleNote]=playStyle();
   const {m,why}=G.moodNow||moods();
   const sh=G.moodShadow||m;
-  const election=politicalApproval(), reelected=election.approval>=50;
+  const election=politicalApproval(), reelected=election.electionEstimate>=50;
   const postmortem=endPostmortem(h,q,election);
 
   document.getElementById('m-eye').textContent=`${h.name} · ${G.year} · ${r[1]}`;
@@ -3206,6 +3468,8 @@ function ending(){
     if(d.kind==="social"){
       return `${Math.round(G.socialBuilt||0).toLocaleString()} homes at below-market rent, occupied from the year they opened.`;
     }
+    if(d.kind==='officeconvert') return d.mode==='housing'?'Prioritized residential conversion of underused office buildings, increasing housing capacity while reducing office intensity.':'Allowed underused office buildings to become mixed-use housing while retaining more commercial activity.';
+    if(d.kind==='officekeep') return 'Kept office-first zoning and declined a special adaptive-reuse housing path.';
     if(/Tenant protections/.test(d.label))
       return `${Math.round(protectedShare(h)*100)}% of homes here ended up shielded from the market.`;
     if(/Below-market/.test(d.label))
@@ -3229,7 +3493,7 @@ function ending(){
        Score <b style="color:#EAE6DC;font-size:15px">${mine}</b> &nbsp; never appointed: ${base}
        &nbsp; <span style="color:${mine>base?'#8FBE7E':'#E8674F'}">${mine>base?'+':''}${mine-base}</span></div>
      <div style="margin-bottom:12px">${styleNote}</div>
-     <div style="border:1px solid ${reelected?'#8FBE7E':'#E8674F'};padding:10px 12px;margin-bottom:12px;background:rgba(8,16,20,.35)"><div class="eyebrow">Election result</div><div style="font-size:22px;font-weight:800;color:${reelected?'#8FBE7E':'#E8674F'}">${reelected?'RE-ELECTED':'DEFEATED'} · ${Math.round(election.approval)}%</div><div style="font-size:11px;color:var(--dim);margin-top:3px">Your approval is weighted by the voter coalition that lives in the district at the end of the term.</div></div>
+     <div style="border:1px solid ${reelected?'#8FBE7E':'#E8674F'};padding:10px 12px;margin-bottom:12px;background:rgba(8,16,20,.35)"><div class="eyebrow">Election result</div><div style="font-size:22px;font-weight:800;color:${reelected?'#8FBE7E':'#E8674F'}">${reelected?'RE-ELECTED':'DEFEATED'} · ${Math.round(election.electionEstimate)}%</div><div style="font-size:11px;color:var(--dim);margin-top:3px">Voter approval: ${Math.round(election.voterApproval)}%. Property/development campaign effect: ${election.campaignEffect>=0?'+':''}${election.campaignEffect.toFixed(1)} pts. Institutional interests do not cast votes; their effect is capped at ±3 points.</div></div>
      <div style="border-left:4px solid #E8A94A;background:rgba(232,169,74,.07);padding:10px 12px;margin-bottom:15px"><div class="eyebrow" style="color:#E8A94A;margin-bottom:4px">Term postmortem</div><div style="font-size:12.5px;line-height:1.55;color:#D6DFE2">${postmortem}</div></div>
 
      <div class="eyebrow" style="margin-bottom:4px">Who ended up happy</div><div style="font-size:10px;color:var(--dim);line-height:1.4;margin-bottom:5px">Rent-burden explanations below are modeled averages: annual rent paid divided by the representative household income for that group.</div>
